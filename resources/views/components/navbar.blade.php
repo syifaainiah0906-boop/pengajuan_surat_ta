@@ -8,17 +8,35 @@
                     </svg>
                 </div>
                 <span class="text-xl font-bold text-gray-800 leading-tight">
-                    Sistem Informasi<br>
-                    <span class="text-sm font-medium text-blue-600">Pengajuan Surat</span>
+                    Sistem Informasi Pengajuan Surat<br>
+                    <span class="text-sm font-medium text-blue-600">Pengantar PKL dan Penelitian</span>
                 </span>
             </div>
 
             <div class="hidden md:flex items-center space-x-8">
-                <a href="/dashboard" class="{{ Request::is('dashboard') ? 'text-blue-600 font-semibold border-b-2 border-blue-600' : 'text-gray-500 hover:text-blue-600' }} pb-1 transition">Dashboard</a>
-                <a href="#" class="text-gray-500 hover:text-blue-600 transition">Verifikasi</a>
-                <a href="#" class="text-gray-500 hover:text-blue-600 transition">Arsip</a>
                 
-                <form action="#" method="POST">
+                <a href="{{ route('dashboard') }}" 
+                   class="{{ Request::routeIs('dashboard') ? 'text-blue-600 font-semibold border-b-2 border-blue-600' : 'text-gray-500 hover:text-blue-600' }} pb-1 transition">
+                   Dashboard
+                </a>
+
+                @if(Auth::user()->role == 'admin')
+                    {{-- Menu Khusus Admin --}}
+                    <a href="{{ route('admin.verifikasi.index') }}" 
+                        class="{{ Request::routeIs('admin.verifikasi*') ? 'text-blue-600 font-semibold border-b-2 border-blue-600' : 'text-gray-500 hover:text-blue-600' }} pb-1 transition">
+                        Verifikasi
+                    </a>
+                    <a href="#" class="text-gray-500 hover:text-blue-600 transition pb-1">Arsip</a>
+                
+                @else
+                    {{-- Menu Khusus User --}}
+                    <a href="{{ route('status-pengajuan.index') }}" 
+                       class="{{ Request::is('status-pengajuan*') ? 'text-blue-600 font-semibold border-b-2 border-blue-600' : 'text-gray-500 hover:text-blue-600' }} pb-1 transition">
+                       Status Pengajuan
+                    </a>
+                @endif
+                
+                <form action="{{ route('logout') }}" method="POST">
                     @csrf
                     <button type="submit" class="bg-red-50 text-red-600 px-4 py-2 rounded-lg font-medium hover:bg-red-100 transition">
                         Logout
