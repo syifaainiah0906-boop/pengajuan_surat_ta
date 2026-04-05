@@ -68,8 +68,12 @@
 
                 <div>
                     <label class="block text-sm font-bold text-gray-700 mb-2">Pembimbing Tugas Akhir</label>
-                    <input type="text" name="pembimbing_ta" required placeholder="Nama Dosen Pembimbing"
-                        class="w-full px-4 py-3 bg-white border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 outline-none transition">
+                    <select name="pembimbing_ta" required class="w-full px-4 py-3 bg-white border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 outline-none transition">
+                        <option value="">-- Pilih Dosen --</option>
+                        @foreach(App\Models\DosenPembimbing::all() as $dosen)
+                            <option value="{{ $dosen->nama }}">{{ $dosen->nama }} - {{ $dosen->prodi }}</option>
+                        @endforeach
+                    </select>
                 </div>
 
                 <div>

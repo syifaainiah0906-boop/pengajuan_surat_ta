@@ -20,6 +20,9 @@ class PengajuanPkl extends Model
         'no_hp_pembimbing',
         'status',
     ];
+    protected $casts = [
+    'tanggal_pengajuan' => 'datetime',
+];
 
     public function user()
     {

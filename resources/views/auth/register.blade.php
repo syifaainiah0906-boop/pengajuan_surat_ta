@@ -29,8 +29,7 @@
 
             <div>
                 <label class="block text-sm font-medium text-gray-700">Program Studi</label>
-                <input type="text" name="prodi" value="{{ old('prodi') }}" class="mt-1 block w-full px-4 py-3 bg-gray-50 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 outline-none transition" placeholder="Contoh: Teknik Informatika" required>
-                @error('prodi') <span class="text-red-500 text-xs">{{ $message }}</span> @enderror
+                <input type="text" name="prodi" value="D3 Teknik Informatika" readonly class="mt-1 block w-full px-4 py-3 bg-gray-100 border border-gray-300 rounded-lg text-gray-600 cursor-not-allowed">
             </div>
 
             <div>

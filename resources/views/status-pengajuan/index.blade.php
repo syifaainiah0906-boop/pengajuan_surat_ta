@@ -4,13 +4,15 @@
 
 @section('content')
 <div class="min-h-screen bg-gray-50 py-10">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        
+    <!-- Container full width dengan sedikit padding samping -->
+    <div class="w-full px-6 md:px-10 lg:px-20">
+
         <div class="mb-6">
             <h1 class="text-3xl font-bold text-gray-800">Data Pengajuan Surat</h1>
             <p class="text-gray-500 mt-1">Silahkan Klik Tab Dibawah untuk melihat status pengajuan Anda.</p>
         </div>
 
+        <!-- Tab -->
         <div class="flex space-x-1 bg-gray-200 p-1 rounded-t-lg w-fit md:w-auto">
             <button onclick="switchTab('pkl')" id="tab-pkl" 
                 class="px-6 py-3 text-sm font-bold rounded-t-lg transition-colors duration-200 bg-white text-blue-600 shadow-sm border-t border-l border-r border-gray-200">
@@ -22,10 +24,12 @@
             </button>
         </div>
 
-        <div class="bg-white rounded-b-lg rounded-tr-lg shadow-lg border border-gray-200 overflow-hidden min-h-[400px]">
+        <!-- Content Box -->
+        <div class="bg-white rounded-b-lg rounded-tr-lg shadow-xl border border-gray-200 overflow-hidden min-h-[400px] mt-2">
             
+            <!-- PKL -->
             <div id="content-pkl" class="block">
-                <div class="p-6 bg-gray-50 border-b border-gray-200">
+                <div class="p-6 bg-gradient-to-r from-blue-50 via-white to-purple-50 border-b border-gray-200">
                     <h2 class="text-lg font-bold text-gray-700">Data Pengajuan Surat Pengantar PKL</h2>
                 </div>
                 <div class="overflow-x-auto">
@@ -49,7 +53,6 @@
                                     {{ \Carbon\Carbon::parse($pkl->created_at)->translatedFormat('d F Y') }}
                                 </td>
                                 <td class="px-6 py-4 text-gray-600">
-                                    {{-- Tanggal diterima (updated_at) hanya muncul jika disetujui --}}
                                     @if($pkl->status == 'disetujui')
                                         {{ \Carbon\Carbon::parse($pkl->updated_at)->translatedFormat('d F Y') }}
                                     @else
@@ -96,8 +99,9 @@
                 </div>
             </div>
 
+            <!-- Penelitian -->
             <div id="content-penelitian" class="hidden">
-                <div class="p-6 bg-gray-50 border-b border-gray-200">
+                <div class="p-6 bg-gradient-to-r from-green-50 via-white to-yellow-50 border-b border-gray-200">
                     <h2 class="text-lg font-bold text-gray-700">Data Pengajuan Surat Pengantar Penelitian</h2>
                 </div>
                 <div class="overflow-x-auto">

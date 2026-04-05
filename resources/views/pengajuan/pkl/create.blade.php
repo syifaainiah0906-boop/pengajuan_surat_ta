@@ -5,10 +5,10 @@
 @section('content')
 <div class="min-h-screen bg-gray-50 py-10">
     <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
-        
-        <div class="mb-8">
+
+        <div class="mb-8 text-center md:text-left">
             <h1 class="text-3xl font-bold text-gray-800">Form Pengajuan Surat PKL</h1>
-            <p class="text-gray-500 mt-2">Lengkapi data di bawah ini untuk mengajukan surat pengantar.</p>
+            <p class="text-gray-500 mt-2">Isi formulir untuk mengajukan izin praktik kerja lapangan.</p>
         </div>
 
         <div class="bg-white rounded-2xl shadow-lg border border-gray-100 p-8">
@@ -34,12 +34,14 @@
                             class="w-full px-4 py-3 bg-gray-100 border border-gray-300 rounded-lg text-gray-600 focus:outline-none cursor-not-allowed">
                     </div>
 
-                    <div>
+                     <div>
                         <label class="block text-sm font-bold text-gray-700 mb-2">NIM</label>
                         <input type="text" value="{{ $user->nim }}" readonly 
                             class="w-full px-4 py-3 bg-gray-100 border border-gray-300 rounded-lg text-gray-600 focus:outline-none cursor-not-allowed">
                     </div>
                 </div>
+
+                <hr class="border-gray-100">
 
                 <div>
                     <label class="block text-sm font-bold text-gray-700 mb-2">Tempat PKL</label>
@@ -62,8 +64,12 @@
 
                 <div>
                     <label class="block text-sm font-bold text-gray-700 mb-2">Pembimbing PKL</label>
-                    <input type="text" name="pembimbing_pkl" required placeholder="Nama Dosen Pembimbing"
-                        class="w-full px-4 py-3 bg-white border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 outline-none transition">
+                    <select name="pembimbing_pkl" required class="w-full px-4 py-3 bg-white border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 outline-none transition">
+                        <option value="">-- Pilih Dosen --</option>
+                        @foreach(App\Models\DosenPembimbing::all() as $dosen)
+                            <option value="{{ $dosen->nama }}">{{ $dosen->nama }} - {{ $dosen->prodi }}</option>
+                        @endforeach
+                    </select>
                 </div>
 
                 <div>

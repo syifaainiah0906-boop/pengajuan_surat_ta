@@ -4,7 +4,7 @@
 
 @section('content')
 <div class="min-h-screen bg-gray-100 py-10">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="w-full px-4 sm:px-6 lg:px-8">
 
         <h1 class="text-3xl font-bold text-gray-700 mb-8">Verifikasi Pengajuan Surat</h1>
 
@@ -78,7 +78,7 @@
 
                             <td class="py-4 px-6 text-sm text-gray-600">
                                 {{ \Carbon\Carbon::parse($item->created_at)->translatedFormat('d M Y') }}
-                                <div class="text-xs text-gray-400">{{ \Carbon\Carbon::parse($item->created_at)->format('H:i') }} WIB</div>
+                                <div class="text-xs text-gray-400">{{ \Carbon\Carbon::parse($item->created_at)->format('H:i') }} WITA</div>
                             </td>
 
                             <td class="py-4 px-6 text-sm text-gray-800">

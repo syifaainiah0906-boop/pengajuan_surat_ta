@@ -4,7 +4,7 @@
 
 @section('content')
 <div class="min-h-screen bg-gray-100 py-10">
-    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="max-w-full mx-auto px-6 sm:px-10 lg:px-16">
         
         <a href="{{ route('admin.verifikasi.penelitian.index') }}" class="flex items-center text-gray-600 hover:text-blue-600 mb-6 transition">
             <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
@@ -15,7 +15,8 @@
             <div class="px-8 py-6 border-b border-gray-100 flex justify-between items-center bg-gray-50">
                 <div>
                     <h1 class="text-2xl font-bold text-gray-800">Detail Pengajuan Penelitian</h1>
-                    <p class="text-gray-500 text-sm mt-1">Diajukan pada {{ \Carbon\Carbon::parse($penelitian->tanggal_pengajuan)->translatedFormat('d F Y, H:i') }}</p>
+                    <p class="text-gray-500 text-sm mt-1">Diajukan pada {{ \Carbon\Carbon::parse($penelitian->tanggal_pengajuan)->translatedFormat('d F Y, H:i') }}
+</p>
                 </div>
                 <div>
                     @if($penelitian->status == 'pending')
@@ -111,7 +112,7 @@
             </div>
             @else
             <div class="bg-gray-50 px-8 py-6 border-t border-gray-200 text-center">
-                <p class="text-gray-500 italic">Pengajuan ini telah diproses pada {{ $penelitian->updated_at->translatedFormat('d F Y, H:i') }}</p>
+                <p class="text-gray-500 italic">Pengajuan ini telah diproses pada {{ $penelitian->updated_at->setTimezone('Asia/Makassar')->translatedFormat('d F Y, H:i') }}</p>
             </div>
             @endif
 

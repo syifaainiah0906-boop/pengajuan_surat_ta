@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('pengajuan_pkls', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
-            $table->date('tanggal_pengajuan');
+            $table->dateTime('tanggal_pengajuan');
             $table->string('nomor_surat')->nullable();
             $table->string('tempat_pkl');
             $table->text('alamat_tempat_pkl');

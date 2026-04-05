@@ -12,7 +12,8 @@ class PengajuanPklController extends Controller
     public function create()
     {
         $user = Auth::user();
-        $tanggal_sekarang = Carbon::now()->translatedFormat('d F Y'); 
+        // Tanggal sekarang WITA
+        $tanggal_sekarang = Carbon::now('Asia/Makassar')->translatedFormat('d F Y, H:i'); 
         
         return view('pengajuan.pkl.create', compact('user', 'tanggal_sekarang'));
     }
@@ -29,7 +30,7 @@ class PengajuanPklController extends Controller
 
         PengajuanPkl::create([
             'user_id' => Auth::id(),
-            'tanggal_pengajuan' => Carbon::now(),
+            'tanggal_pengajuan' => Carbon::now('Asia/Makassar'), // simpan dengan WITA
             'nomor_surat' => null,
             'tempat_pkl' => $request->tempat_pkl,
             'alamat_tempat_pkl' => $request->alamat_tempat_pkl,

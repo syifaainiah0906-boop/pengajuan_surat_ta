@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
 {
+    // ================= REGISTER =================
     public function showRegister()
     {
         return view('auth.register');
@@ -30,12 +31,14 @@ class AuthController extends Controller
             'prodi' => $request->prodi,
             'username' => $request->username,
             'password' => Hash::make($request->password),
-            'role' => 'user'
+            'role' => 'user' // default user
         ]);
 
-        return redirect()->route('login')->with('success', 'Registrasi berhasil! Silakan login.');
+        return redirect()->route('login')
+            ->with('success', 'Registrasi berhasil! Silakan login.');
     }
 
+    // ================= LOGIN =================
     public function showLogin()
     {
         return view('auth.login');
@@ -51,7 +54,12 @@ class AuthController extends Controller
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
 
-            return redirect()->intended('dashboard');
+            // 🔥 CEK ROLE
+            if (Auth::user()->role === 'admin') {
+                return redirect()->route('admin.dashboard');
+            } else {
+                return redirect()->route('dashboard');
+            }
         }
 
         return back()->withErrors([
@@ -59,11 +67,13 @@ class AuthController extends Controller
         ])->onlyInput('username');
     }
 
+    // ================= LOGOUT =================
     public function logout(Request $request)
     {
         Auth::logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();
+
         return redirect('/login');
     }
 }

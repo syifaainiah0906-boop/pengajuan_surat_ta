@@ -9,10 +9,11 @@ use Carbon\Carbon;
 
 class PengajuanPenelitianController extends Controller
 {
-    public function create()
+   public function create()
     {
         $user = Auth::user();
-        $tanggal_sekarang = Carbon::now()->translatedFormat('d F Y');
+        // Tanggal sekarang WITA
+        $tanggal_sekarang = Carbon::now('Asia/Makassar')->translatedFormat('d F Y, H:i'); 
         
         return view('pengajuan.penelitian.create', compact('user', 'tanggal_sekarang'));
     }

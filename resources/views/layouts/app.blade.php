@@ -6,13 +6,19 @@
         <title>@yield('title')</title>
         @vite('resources/css/app.css')
     </head>
-    <body>
-        <div class="d-flex flex-column min-vh-100">
+
+    <body class="bg-gradient-to-br from-blue-50 via-white to-yellow-50">
+
+        <!-- Wrapper -->
+        <div class="flex flex-col min-h-screen">
+
+            <!-- Navbar -->
             @include('components.navbar')
-        
-            <div>
+
+            <!-- Content -->
+            <main class="flex-1">
                 @yield('content')
-            </div>
+            </main>
 
         </div>
         

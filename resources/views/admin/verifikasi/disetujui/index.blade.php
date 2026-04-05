@@ -4,7 +4,7 @@
 
 @section('content')
 <div class="min-h-screen bg-gray-100 py-10">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="w-full px-4 sm:px-6 lg:px-8">
 
         <h1 class="text-3xl font-bold text-gray-700 mb-8">Total Disetujui</h1>
 
@@ -63,7 +63,7 @@
                                 <span class="bg-sky-100 text-sky-800 py-1 px-3 rounded text-xs font-bold">Penelitian</span>
                             @endif
                         </td>
-                        <td class="py-4 px-6">{{ \Carbon\Carbon::parse($item->tanggal_pengajuan)->translatedFormat('d F Y') }}</td>
+                        <td class="py-4 px-6">{{ \Carbon\Carbon::parse($item->tanggal_pengajuan)->timezone('Asia/Makassar')->translatedFormat('d F Y, H:i') }}</td>
                         <td class="py-4 px-6">
                             <span class="bg-green-100 text-green-800 py-1 px-3 rounded-full text-xs font-bold">Disetujui</span>
                         </td>
