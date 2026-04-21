@@ -13,6 +13,7 @@ class PengajuanPkl extends Model
         'user_id',
         'tanggal_pengajuan',
         'nomor_surat',
+        'nomor_handphone',
         'tempat_pkl',
         'alamat_tempat_pkl',
         'tujuan_surat',

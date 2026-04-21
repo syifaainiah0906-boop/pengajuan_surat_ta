@@ -34,16 +34,22 @@
                     <h3 class="text-sm font-semibold text-gray-400 uppercase tracking-wider mb-4">Informasi Mahasiswa</h3>
                     <div class="space-y-4">
                         <div>
-                            <label class="text-xs text-gray-500">Nama Lengkap</label>
+                            <label class="text-sm text-gray-500">Nama Lengkap</label>
                             <p class="font-medium text-gray-800 text-lg">{{ $penelitian->user->name }}</p>
                         </div>
                         <div>
-                            <label class="text-xs text-gray-500">NIM</label>
+                            <label class="text-sm text-gray-500">NIM</label>
                             <p class="font-medium text-gray-800">{{ $penelitian->user->nim }}</p>
-                        </div>
+                        </div>         
                         <div>
-                            <label class="text-xs text-gray-500">Program Studi</label>
+                            <label class="text-sm text-gray-500">Program Studi</label>
                             <p class="font-medium text-gray-800">{{ $penelitian->user->prodi }}</p>
+                        </div>
+                   <div>
+                            <label class="text-sm text-gray-500">Nomor Handphone</label>
+                            <p class="font-medium text-gray-800">
+                                {{ $penelitian->nomor_handphone ?? '-' }}
+                            </p>
                         </div>
                     </div>
                 </div>
@@ -52,15 +58,15 @@
                     <h3 class="text-sm font-semibold text-gray-400 uppercase tracking-wider mb-4">Detail Tempat Penelitian</h3>
                     <div class="space-y-4">
                         <div>
-                            <label class="text-xs text-gray-500">Tempat Penelitian</label>
+                            <label class="text-sm text-gray-500">Tempat Penelitian</label>
                             <p class="font-medium text-gray-800">{{ $penelitian->tempat_penelitian }}</p>
                         </div>
                         <div>
-                            <label class="text-xs text-gray-500">Tujuan Surat</label>
+                            <label class="text-sm text-gray-500">Tujuan Surat</label>
                             <p class="font-medium text-gray-800">{{ $penelitian->tujuan_surat }}</p>
                         </div>
                         <div>
-                            <label class="text-xs text-gray-500">Alamat Lengkap</label>
+                            <label class="text-sm text-gray-500">Alamat Lengkap</label>
                             <p class="font-medium text-gray-800 leading-relaxed">{{ $penelitian->alamat_tempat_penelitian }}</p>
                         </div>
                     </div>
@@ -69,7 +75,7 @@
                 <div class="col-span-2 border-t border-gray-100 pt-6">
                     <h3 class="text-sm font-semibold text-gray-400 uppercase tracking-wider mb-4">Detail Tugas Akhir</h3>
                     <div>
-                        <label class="text-xs text-gray-500">Judul Tugas Akhir</label>
+                        <label class="text-sm text-gray-500">Judul Tugas Akhir</label>
                         <p class="font-medium text-gray-800 text-lg italic">"{{ $penelitian->judul_ta }}"</p>
                     </div>
                 </div>
@@ -77,11 +83,11 @@
                 <div class="col-span-2 border-t border-gray-100 pt-6">
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div>
-                            <label class="text-xs text-gray-500">Nama Pembimbing</label>
+                            <label class="text-sm text-gray-500">Nama Pembimbing</label>
                             <p class="font-medium text-gray-800">{{ $penelitian->pembimbing_ta }}</p>
                         </div>
                         <div>
-                            <label class="text-xs text-gray-500">No HP Pembimbing</label>
+                            <label class="text-sm text-gray-500">No HP Pembimbing</label>
                             <p class="font-medium text-gray-800">{{ $penelitian->no_hp_pembimbing }}</p>
                         </div>
                     </div>

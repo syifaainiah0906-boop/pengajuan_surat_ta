@@ -5,8 +5,8 @@
 @section('content')
 <div class="min-h-screen bg-gray-50 py-10">
     <!-- Container full width dengan sedikit padding samping -->
-    <div class="w-full px-6 md:px-10 lg:px-20">
-
+    <div class="w-full px-4 sm:px-6 lg:px-8">
+        
         <div class="mb-6">
             <h1 class="text-3xl font-bold text-gray-800">Data Pengajuan Surat</h1>
             <p class="text-gray-500 mt-1">Silahkan Klik Tab Dibawah untuk melihat status pengajuan Anda.</p>
@@ -50,11 +50,11 @@
                                 <td class="px-6 py-4 font-medium text-gray-900">{{ $index + 1 }}</td>
                                 <td class="px-6 py-4 text-gray-700 font-medium">Surat Pengantar PKL</td>
                                 <td class="px-6 py-4 text-gray-600">
-                                    {{ \Carbon\Carbon::parse($pkl->created_at)->translatedFormat('d F Y') }}
+                                {{ \Carbon\Carbon::parse($pkl->created_at)->translatedFormat('d F Y, H:i') }}
                                 </td>
                                 <td class="px-6 py-4 text-gray-600">
                                     @if($pkl->status == 'disetujui')
-                                        {{ \Carbon\Carbon::parse($pkl->updated_at)->translatedFormat('d F Y') }}
+                                    {{ \Carbon\Carbon::parse($pkl->updated_at)->translatedFormat('d F Y, H:i') }}
                                     @else
                                         -
                                     @endif
@@ -76,14 +76,13 @@
                                 </td>
                                 <td class="px-6 py-4">
                                     @if($pkl->status == 'disetujui')
-                                        <a href="#" class="text-blue-600 hover:text-blue-800 font-bold hover:underline flex items-center">
-                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
-                                            </svg>
-                                            Download
+                                <a href="{{ route('admin.verifikasi.pkl.preview', $pkl->id) }}" 
+                                target="_blank"
+                                class="text-blue-600 hover:text-blue-800 font-bold hover:underline flex items-center">
+                                    Detail
                                         </a>
                                     @else
-                                        <span class="text-gray-400 cursor-not-allowed text-sm">Download</span>
+                                        <span class="text-gray-400 cursor-not-allowed text-sm">Detail</span>
                                     @endif
                                 </td>
                             </tr>
@@ -122,11 +121,11 @@
                                 <td class="px-6 py-4 font-medium text-gray-900">{{ $index + 1 }}</td>
                                 <td class="px-6 py-4 text-gray-700 font-medium">Surat Pengantar Penelitian</td>
                                 <td class="px-6 py-4 text-gray-600">
-                                    {{ \Carbon\Carbon::parse($penelitian->created_at)->translatedFormat('d F Y') }}
+                                    {{ \Carbon\Carbon::parse($penelitian->created_at)->translatedFormat('d F Y, H:i') }}
                                 </td>
                                 <td class="px-6 py-4 text-gray-600">
                                     @if($penelitian->status == 'disetujui')
-                                        {{ \Carbon\Carbon::parse($penelitian->updated_at)->translatedFormat('d F Y') }}
+                                        {{ \Carbon\Carbon::parse($penelitian->update_at)->translatedFormat('d F Y, H:i') }}
                                     @else
                                         -
                                     @endif
@@ -148,15 +147,14 @@
                                 </td>
                                 <td class="px-6 py-4">
                                     @if($penelitian->status == 'disetujui')
-                                        <a href="#" class="text-blue-600 hover:text-blue-800 font-bold hover:underline flex items-center">
-                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
-                                            </svg>
-                                            Download
-                                        </a>
-                                    @else
-                                        <span class="text-gray-400 cursor-not-allowed text-sm">Download</span>
-                                    @endif
+                                    <a href="{{ route('admin.verifikasi.penelitian.preview', $penelitian->id) }}" 
+                                    target="_blank"
+                                    class="text-blue-600 hover:text-blue-800 font-bold hover:underline flex items-center">
+                                        Detail
+                                    </a>
+                                @else
+                                    <span class="text-gray-400 cursor-not-allowed text-sm">Detail</span>
+                                @endif
                                 </td>
                             </tr>
                             @empty

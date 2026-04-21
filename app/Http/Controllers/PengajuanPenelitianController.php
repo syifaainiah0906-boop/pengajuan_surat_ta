@@ -6,21 +6,31 @@ use App\Models\PengajuanPenelitian;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class PengajuanPenelitianController extends Controller
 {
-   public function create()
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
+    // FORM CREATE
+    public function create()
     {
         $user = Auth::user();
-        // Tanggal sekarang WITA
-        $tanggal_sekarang = Carbon::now('Asia/Makassar')->translatedFormat('d F Y, H:i'); 
-        
+
+        $tanggal_sekarang = Carbon::now('Asia/Makassar')
+            ->translatedFormat('d F Y, H:i');
+
         return view('pengajuan.penelitian.create', compact('user', 'tanggal_sekarang'));
     }
 
+    // SIMPAN DATA
     public function store(Request $request)
     {
         $request->validate([
+            'nomor_handphone' => 'required|string|max:20',
             'tempat_penelitian' => 'required|string|max:255',
             'alamat_tempat_penelitian' => 'required|string',
             'tujuan_surat' => 'required|string|max:255',
@@ -31,8 +41,9 @@ class PengajuanPenelitianController extends Controller
 
         PengajuanPenelitian::create([
             'user_id' => Auth::id(),
-            'tanggal_pengajuan' => Carbon::now(),
+            'tanggal_pengajuan' => Carbon::now('Asia/Makassar'),
             'nomor_surat' => null,
+            'nomor_handphone' => $request->nomor_handphone,
             'tempat_penelitian' => $request->tempat_penelitian,
             'alamat_tempat_penelitian' => $request->alamat_tempat_penelitian,
             'tujuan_surat' => $request->tujuan_surat,
@@ -42,6 +53,54 @@ class PengajuanPenelitianController extends Controller
             'status' => 'pending',
         ]);
 
-        return redirect()->route('dashboard')->with('success', 'Pengajuan Surat Penelitian berhasil dikirim!');
+        return redirect()->route('dashboard')
+            ->with('success', 'Pengajuan Surat Penelitian berhasil dikirim!');
+    }
+
+    // GENERATE NOMOR SURAT
+    private function generateNomorSurat()
+    {
+        $tahun = now()->year;
+        $bulan = now()->month;
+
+        $last = PengajuanPenelitian::whereYear('created_at', $tahun)->count();
+        $no = str_pad($last + 1, 3, '0', STR_PAD_LEFT);
+
+        $romawi = ['I','II','III','IV','V','VI','VII','VIII','IX','X','XI','XII'];
+
+        return "$no/PENELITIAN/PHS/".$romawi[$bulan - 1]."/$tahun";
+    }
+
+    // APPROVE
+    public function approve($id)
+    {
+        $data = PengajuanPenelitian::findOrFail($id);
+
+        $data->status = 'disetujui';
+        $data->nomor_surat = $this->generateNomorSurat();
+
+        $data->save();
+
+        return back()->with('success', 'Pengajuan disetujui & nomor surat berhasil dibuat!');
+    }
+
+    // ✅ PREVIEW PDF (DITAMPILKAN DI BROWSER)
+    public function preview($id)
+    {
+        $penelitian = PengajuanPenelitian::with('user')->findOrFail($id);
+
+        $pdf = Pdf::loadView('admin.verifikasi.penelitian.surat', compact('penelitian'));
+
+        return $pdf->stream('surat_penelitian.pdf');
+    }
+
+    // ✅ DOWNLOAD PDF
+    public function download($id)
+    {
+        $penelitian = PengajuanPenelitian::with('user')->findOrFail($id);
+
+        $pdf = Pdf::loadView('admin.verifikasi.penelitian.surat', compact('penelitian'));
+
+        return $pdf->download('surat_penelitian.pdf');
     }
 }

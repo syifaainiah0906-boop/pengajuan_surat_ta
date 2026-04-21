@@ -37,11 +37,6 @@
                         <input type="text" name="search" value="{{ request('search') }}" 
                             placeholder="Cari nama mahasiswa..." 
                             class="w-full px-4 py-2.5 bg-transparent focus:outline-none text-sm">
-
-                        <button type="submit" 
-                            class="bg-blue-600 hover:bg-blue-700 text-white px-4">
-                            🔍
-                        </button>
                     </div>
                 </div>
 
@@ -55,7 +50,7 @@
                         <th class="py-4 px-6 font-semibold text-sm uppercase">No</th>
                         <th class="py-4 px-6 font-semibold text-sm uppercase">Nama Mahasiswa</th>
                         <th class="py-4 px-6 font-semibold text-sm uppercase">NIM</th>
-                        <th class="py-4 px-6 font-semibold text-sm uppercase">Jenis</th>
+                        <th class="py-4 px-6 font-semibold text-sm uppercase">Nomor Handphone</th>
                         <th class="py-4 px-6 font-semibold text-sm uppercase">Tanggal Pengajuan</th>
                         <th class="py-4 px-6 font-semibold text-sm uppercase">Status</th>
                         <th class="py-4 px-6 font-semibold text-sm uppercase text-center">Aksi</th>
@@ -65,10 +60,11 @@
                     @forelse($data_pkl as $index => $item)
                     <tr class="border-b border-gray-200 hover:bg-gray-50 transition">
                         <td class="py-4 px-6">{{ $index + 1 + ($data_pkl->currentPage() - 1) * $data_pkl->perPage() }}</td>
-                        <td class="py-4 px-6 font-medium">{{ $item->user->name }}</td> <!-- Nama -->
-                        <td class="py-4 px-6 text-gray-500">{{ $item->user->nim }}</td> <!-- NIM -->
-                        <td class="py-4 px-6">PKL</td>
-                        <td class="py-4 px-6">{{$item->tanggal_pengajuan->translatedFormat('d F Y, H:i') }}
+                        <td class="py-4 px-6 font-medium">{{ $item->user->name }}</td>
+                        <td class="py-4 px-6 text-gray-500">{{ $item->user->nim }}</td>
+                        <td class="py-4 px-6 text-gray-500">{{ $item->nomor_handphone }}</td>   
+                        <td class="py-4 px-6">
+                            {{ $item->tanggal_pengajuan->translatedFormat('d F Y, H:i') }}
                         </td>                        
                         <td class="py-4 px-6">
                             @if($item->status == 'pending')
@@ -79,8 +75,14 @@
                                 <span class="bg-red-100 text-red-800 py-1 px-3 rounded-full text-xs font-bold">Ditolak</span>
                             @endif
                         </td>
+
                         <td class="py-4 px-6 text-center space-x-2 flex justify-center items-center">
-                            <a href="{{ route('admin.verifikasi.pkl.show', $item->id) }}" class="text-blue-600 hover:text-blue-900 font-bold text-sm">Detail</a>
+
+                            <!-- ✅ DETAIL KE SHOW -->
+                            <a href="{{ route('admin.verifikasi.pkl.show', $item->id) }}"
+                               class="text-blue-600 hover:text-blue-900 font-bold text-sm">
+                               Detail
+                            </a>
 
                             @if($item->status == 'pending')
                                 <span class="text-gray-300">|</span>
@@ -101,6 +103,7 @@
                                     </button>
                                 </form>
                             @endif
+
                         </td>
                     </tr>
                     @empty

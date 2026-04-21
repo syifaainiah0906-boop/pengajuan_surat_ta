@@ -45,8 +45,15 @@
                                 <label class="text-sm text-gray-500">Program Studi</label>
                                 <p class="font-medium text-gray-800">{{ $pkl->user->prodi }}</p>
                             </div>
+                         
+                        <div>
+                            <label class="text-sm text-gray-500">Nomor Handphone</label>
+                            <p class="font-medium text-gray-800">
+                                {{ $pkl->nomor_handphone ?? '-' }}
+                            </p>
                         </div>
                     </div>
+                </div>
 
                     <div class="col-span-2 md:col-span-1">
                         <h3 class="text-sm font-semibold text-gray-400 uppercase tracking-wider mb-4">Detail Tempat PKL</h3>

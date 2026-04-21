@@ -16,6 +16,7 @@ return new class extends Migration
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->dateTime('tanggal_pengajuan');
             $table->string('nomor_surat')->nullable();
+            $table->string('nomor_handphone');
             $table->string('tempat_pkl');
             $table->text('alamat_tempat_pkl');
             $table->string('tujuan_surat');

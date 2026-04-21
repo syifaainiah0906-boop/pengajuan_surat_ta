@@ -32,7 +32,10 @@
                         class="{{ Request::routeIs('admin.verifikasi*') ? 'text-blue-600 font-semibold border-b-2 border-blue-600' : 'text-gray-500 hover:text-blue-600' }} pb-1 transition">
                         Verifikasi
                     </a>
-                    <a href="#" class="text-gray-500 hover:text-blue-600 transition pb-1">Arsip</a>
+                    <a href="{{ route('admin.arsip.index') }}" 
+                       class="{{ Request::routeIs('admin.arsip*') ? 'text-blue-600 font-semibold border-b-2 border-blue-600' : 'text-gray-500 hover:text-blue-600' }} pb-1 transition">
+                        Arsip
+                    </a>
                 @else
                     <a href="{{ route('status-pengajuan.index') }}" 
                        class="{{ Request::is('status-pengajuan*') ? 'text-blue-600 font-semibold border-b-2 border-blue-600' : 'text-gray-500 hover:text-blue-600' }} pb-1 transition">

@@ -83,7 +83,6 @@
                             <th class="px-6 py-4">Jenis</th>
                             <th class="px-6 py-4">Tanggal</th>
                             <th class="px-6 py-4">Status</th>
-                            <th class="px-6 py-4">Aksi</th>
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-gray-50">
@@ -116,9 +115,6 @@
                                     <span class="px-3 py-1 rounded-full text-xs font-bold capitalize {{ $statusClass }}">
                                         {{ $item->status }}
                                     </span>
-                                </td>
-                                <td class="px-6 py-4">
-                                    <button class="text-blue-600 hover:text-blue-800 font-medium text-sm">Detail</button>
                                 </td>
                             </tr>
                         @empty

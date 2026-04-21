@@ -42,6 +42,12 @@
                 </div>
 
                 <div>
+                    <label class="block text-sm font-bold text-gray-700 mb-2">Nomor Handphone</label>
+                    <input type="text" name="nomor_handphone" required placeholder="Masukkan nomor handphone"
+                        class="w-full px-4 py-3 bg-white border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 outline-none transition">
+                </div>
+
+                <div>
                     <label class="block text-sm font-bold text-gray-700 mb-2">Tempat Penelitian</label>
                     <input type="text" name="tempat_penelitian" required placeholder="Masukkan nama instansi / perusahaan"
                         class="w-full px-4 py-3 bg-white border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 outline-none transition">

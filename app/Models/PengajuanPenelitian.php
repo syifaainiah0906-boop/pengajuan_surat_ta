@@ -13,6 +13,7 @@ class PengajuanPenelitian extends Model
         'user_id',
         'tanggal_pengajuan',
         'nomor_surat',
+        'nomor_handphone',
         'tempat_penelitian',
         'alamat_tempat_penelitian',
         'tujuan_surat',

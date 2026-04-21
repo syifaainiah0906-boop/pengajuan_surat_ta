@@ -47,6 +47,7 @@
                 <table class="w-full text-left border-collapse">
                     <thead class="bg-gray-800 text-white">
                         <tr>
+                            <th class="py-4 px-6 text-sm font-semibold uppercase tracking-wider">No</th>
                             <th class="py-4 px-6 text-sm font-semibold uppercase tracking-wider">Mahasiswa</th>
                             <th class="py-4 px-6 text-sm font-semibold uppercase tracking-wider">Jenis Surat</th>
                             <th class="py-4 px-6 text-sm font-semibold uppercase tracking-wider">Tanggal</th>
@@ -58,6 +59,11 @@
                     <tbody class="divide-y divide-gray-100">
                         @forelse($data_gabungan as $item)
                         <tr class="hover:bg-blue-50 transition duration-150">
+                            
+                        <!-- KOLOM NO -->
+                        <td class="py-4 px-6 text-sm text-gray-700">
+                            {{ $data_gabungan->firstItem() + $loop->index }}
+                        </td>
                             
                             <td class="py-4 px-6">
                                 <div class="font-bold text-gray-800">{{ $item->user->name }}</div>

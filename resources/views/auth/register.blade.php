@@ -6,9 +6,17 @@
     <title>Daftar Akun - Sistem Pengajuan</title>
     @vite('resources/css/app.css')
 </head>
-<body class="bg-gray-50 flex items-center justify-center min-h-screen">
-    <div class="max-w-md w-full bg-white p-8 rounded-xl shadow-lg border border-gray-100">
+<body class="relative min-h-screen flex items-center justify-center bg-cover bg-center"
+      style="background-image: url('{{ asset('images/bg-dashboard.jpg') }}');">
+
+    <!-- Overlay -->
+    <div class="absolute inset-0 bg-black/50"></div>
+
+    <!-- Card -->
+    <div class="relative z-10 max-w-md w-full bg-white p-8 rounded-xl shadow-lg">
+
         <div class="text-center mb-8">
+            <img src="{{ asset('images/logo_polhas.png') }}" class="mx-auto mb-4 w-24 h-24 object-contain">
             <h2 class="text-3xl font-bold text-gray-800">Buat Akun</h2>
             <p class="text-gray-500 mt-2">Daftar untuk pengajuan PKL & Tugas Akhir</p>
         </div>
