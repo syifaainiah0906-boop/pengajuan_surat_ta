@@ -73,7 +73,6 @@
         <div class="lg:col-span-2 bg-white rounded-3xl border border-gray-100 shadow-sm overflow-hidden">
             <div class="p-6 border-b border-gray-50 flex justify-between items-center">
                 <h2 class="text-2xl font-bold text-gray-800">Pengajuan Terbaru</h2>
-                <button class="text-blue-600 text-sm font-semibold hover:underline">Lihat Semua</button>
             </div>
             <div class="overflow-x-auto">
                 <table class="w-full text-left">

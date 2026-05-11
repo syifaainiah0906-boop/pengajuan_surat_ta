@@ -9,6 +9,11 @@ class PengajuanPenelitian extends Model
 {
     use HasFactory;
 
+    // TAMBAHAN: Konstanta status (opsional, biar tidak typo)
+    const STATUS_PENDING = 'pending';
+    const STATUS_DISETUJUI = 'disetujui';
+    const STATUS_DITOLAK = 'ditolak';
+
     protected $fillable = [
         'user_id',
         'tanggal_pengajuan',
@@ -22,12 +27,21 @@ class PengajuanPenelitian extends Model
         'no_hp_pembimbing',
         'status',
     ];
+
     protected $casts = [
-    'tanggal_pengajuan' => 'datetime',
+        'tanggal_pengajuan' => 'datetime',
     ];
 
     public function user()
     {
         return $this->belongsTo(User::class);
     }
+
+    // TAMBAHAN: Helper cek pengajuan aktif
+    public static function hasActive($userId)
+{
+    return self::where('user_id', $userId)
+        ->whereIn('status', ['pending', 'disetujui'])
+        ->exists();
+}
 }

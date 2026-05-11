@@ -16,6 +16,9 @@ class DashboardController extends Controller
         if ($user->role === 'admin') {
             return $this->adminDashboard();
         }
+        if ($user->role === 'baa') {
+        return redirect()->route('admin.arsip.index');
+    }
 
         return $this->userDashboard();
     }
@@ -46,8 +49,31 @@ class DashboardController extends Controller
         ]);
     }
 
-    private function userDashboard()
-    {
-        return view('dashboard.user');
-    }
+   private function userDashboard()
+{
+    $userId = Auth::id();
+
+    // CEK PENELITIAN (AMBIL DATA TERAKHIR)
+    $lastPenelitian = \App\Models\PengajuanPenelitian::where('user_id', $userId)
+        ->latest()
+        ->first();
+
+    $punyaPengajuanAktif = $lastPenelitian 
+        ? in_array($lastPenelitian->status, ['pending', 'disetujui']) 
+        : false;
+
+    // CEK PKL (AMBIL DATA TERAKHIR)
+    $lastPkl = \App\Models\PengajuanPkl::where('user_id', $userId)
+        ->latest()
+        ->first();
+
+    $punyaPengajuanAktifPkl = $lastPkl 
+        ? in_array($lastPkl->status, ['pending', 'disetujui']) 
+        : false;
+
+    return view('dashboard.user', compact(
+        'punyaPengajuanAktif',
+        'punyaPengajuanAktifPkl'
+    ));
+}
 }

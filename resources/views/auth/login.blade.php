@@ -8,7 +8,7 @@
 </head>
 
 <body class="relative min-h-screen flex items-center justify-center bg-cover bg-center"
-      style="background-image: url('{{ asset('images/bg-dashboard.jpg') }}');">
+      style="background-image: url('{{ asset('images/view_baru.jpg') }}');">
 
     <!-- Overlay -->
     <div class="absolute inset-0 bg-black/50"></div>

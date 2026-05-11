@@ -16,47 +16,56 @@ class PengajuanPenelitianController extends Controller
     }
 
     // FORM CREATE
-    public function create()
-    {
-        $user = Auth::user();
+   public function create()
+{
+    $user = Auth::user();
 
-        $tanggal_sekarang = Carbon::now('Asia/Makassar')
-            ->translatedFormat('d F Y, H:i');
+    $tanggal_sekarang = Carbon::now('Asia/Makassar')
+        ->translatedFormat('d F Y, H:i');
 
-        return view('pengajuan.penelitian.create', compact('user', 'tanggal_sekarang'));
+    $punyaPengajuanAktif = PengajuanPenelitian::hasActive(Auth::id());
+
+    return view('pengajuan.penelitian.create', compact(
+        'user',
+        'tanggal_sekarang',
+        'punyaPengajuanAktif'
+    ));
+}
+
+public function store(Request $request)
+{
+    // ✅ BLOCK kalau masih ada pengajuan
+    if (PengajuanPenelitian::hasActive(Auth::id())) {
+        return back()->with('error', 'Anda masih memiliki pengajuan (pending/disetujui). Tidak bisa mengajukan lagi!');
     }
 
-    // SIMPAN DATA
-    public function store(Request $request)
-    {
-        $request->validate([
-            'nomor_handphone' => 'required|string|max:20',
-            'tempat_penelitian' => 'required|string|max:255',
-            'alamat_tempat_penelitian' => 'required|string',
-            'tujuan_surat' => 'required|string|max:255',
-            'judul_ta' => 'required|string|max:255',
-            'pembimbing_ta' => 'required|string|max:255',
-            'no_hp_pembimbing' => 'required|string|max:20',
-        ]);
+    $request->validate([
+        'nomor_handphone' => 'required|string|max:20',
+        'tempat_penelitian' => 'required|string|max:255',
+        'alamat_tempat_penelitian' => 'required|string',
+        'tujuan_surat' => 'required|string|max:255',
+        'judul_ta' => 'required|string|max:255',
+        'pembimbing_ta' => 'required|string|max:255',
+        'no_hp_pembimbing' => 'required|string|max:20',
+    ]);
 
-        PengajuanPenelitian::create([
-            'user_id' => Auth::id(),
-            'tanggal_pengajuan' => Carbon::now('Asia/Makassar'),
-            'nomor_surat' => null,
-            'nomor_handphone' => $request->nomor_handphone,
-            'tempat_penelitian' => $request->tempat_penelitian,
-            'alamat_tempat_penelitian' => $request->alamat_tempat_penelitian,
-            'tujuan_surat' => $request->tujuan_surat,
-            'judul_ta' => $request->judul_ta,
-            'pembimbing_ta' => $request->pembimbing_ta,
-            'no_hp_pembimbing' => $request->no_hp_pembimbing,
-            'status' => 'pending',
-        ]);
+    PengajuanPenelitian::create([
+        'user_id' => Auth::id(),
+        'tanggal_pengajuan' => now(),
+        'nomor_surat' => null,
+        'nomor_handphone' => $request->nomor_handphone,
+        'tempat_penelitian' => $request->tempat_penelitian,
+        'alamat_tempat_penelitian' => $request->alamat_tempat_penelitian,
+        'tujuan_surat' => $request->tujuan_surat,
+        'judul_ta' => $request->judul_ta,
+        'pembimbing_ta' => $request->pembimbing_ta,
+        'no_hp_pembimbing' => $request->no_hp_pembimbing,
+        'status' => 'pending',
+    ]);
 
-        return redirect()->route('dashboard')
-            ->with('success', 'Pengajuan Surat Penelitian berhasil dikirim!');
-    }
-
+    return redirect()->route('dashboard')
+        ->with('success', 'Pengajuan berhasil!');
+}
     // GENERATE NOMOR SURAT
     private function generateNomorSurat()
     {
@@ -84,7 +93,7 @@ class PengajuanPenelitianController extends Controller
         return back()->with('success', 'Pengajuan disetujui & nomor surat berhasil dibuat!');
     }
 
-    // ✅ PREVIEW PDF (DITAMPILKAN DI BROWSER)
+    // PREVIEW PDF
     public function preview($id)
     {
         $penelitian = PengajuanPenelitian::with('user')->findOrFail($id);
@@ -94,7 +103,7 @@ class PengajuanPenelitianController extends Controller
         return $pdf->stream('surat_penelitian.pdf');
     }
 
-    // ✅ DOWNLOAD PDF
+    // DOWNLOAD PDF
     public function download($id)
     {
         $penelitian = PengajuanPenelitian::with('user')->findOrFail($id);

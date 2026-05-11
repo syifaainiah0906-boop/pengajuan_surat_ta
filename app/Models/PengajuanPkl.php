@@ -29,4 +29,17 @@ class PengajuanPkl extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    public static function hasActive($userId)
+{
+    $latest = self::where('user_id', $userId)
+        ->latest()
+        ->first();
+
+    if (!$latest) {
+        return false; // ⬅️ INI PENTING
+    }
+
+    return in_array($latest->status, ['pending', 'disetujui']);
+}
 }

@@ -63,6 +63,14 @@
                                 <p class="font-medium text-gray-800">{{ $pkl->tempat_pkl }}</p>
                             </div>
                             <div>
+                        <label class="text-sm text-gray-500">Tanggal PKL</label>
+                        <p class="font-medium text-gray-800">
+                            {{ \Carbon\Carbon::parse($pkl->tanggal_mulai)->translatedFormat('d F Y') }}
+                            -
+                            {{ \Carbon\Carbon::parse($pkl->tanggal_selesai)->translatedFormat('d F Y') }}
+                        </p>
+                    </div>
+                            <div>
                                 <label class="text-sm text-gray-500">Tujuan Surat (Jabatan)</label>
                                 <p class="font-medium text-gray-800">{{ $pkl->tujuan_surat }}</p>
                             </div>

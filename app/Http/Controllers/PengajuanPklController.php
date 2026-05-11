@@ -24,12 +24,24 @@ class PengajuanPklController extends Controller
         $tanggal_sekarang = Carbon::now('Asia/Makassar')
             ->translatedFormat('d F Y, H:i');
 
-        return view('pengajuan.pkl.create', compact('user', 'tanggal_sekarang'));
+        // ✅ TAMBAHAN
+        $punyaPengajuanAktif = PengajuanPkl::hasActive(Auth::id());
+
+        return view('pengajuan.pkl.create', compact(
+            'user',
+            'tanggal_sekarang',
+            'punyaPengajuanAktif'
+        ));
     }
 
     // SIMPAN DATA PKL
     public function store(Request $request)
     {
+        // ✅ TAMBAHAN: BLOCK jika masih ada pengajuan aktif
+        if (PengajuanPkl::hasActive(Auth::id())) {
+            return back()->with('error', 'Anda masih memiliki pengajuan PKL aktif!');
+        }
+
         $request->validate([
             'nomor_handphone' => 'required|string|max:20',
             'tempat_pkl' => 'required|string|max:255',
@@ -37,14 +49,17 @@ class PengajuanPklController extends Controller
             'tujuan_surat' => 'required|string|max:255',
             'pembimbing_pkl' => 'required|string|max:255',
             'no_hp_pembimbing' => 'required|string|max:20',
+            'tanggal_mulai' => 'required|date',
+            'tanggal_selesai' => 'required|date|after:tanggal_mulai',
         ]);
-
         PengajuanPkl::create([
             'user_id' => Auth::id(),
             'tanggal_pengajuan' => Carbon::now('Asia/Makassar'),
             'nomor_surat' => null,
             'nomor_handphone' => $request->nomor_handphone,
             'tempat_pkl' => $request->tempat_pkl,
+            'tanggal_mulai' => $request->tanggal_mulai,
+            'tanggal_selesai' => $request->tanggal_selesai,
             'alamat_tempat_pkl' => $request->alamat_tempat_pkl,
             'tujuan_surat' => $request->tujuan_surat,
             'pembimbing_pkl' => $request->pembimbing_pkl,
@@ -94,21 +109,20 @@ class PengajuanPklController extends Controller
     }
 
     public function preview($id)
-{
-    $pkl = PengajuanPkl::with('user')->findOrFail($id);
+    {
+        $pkl = PengajuanPkl::with('user')->findOrFail($id);
 
-    $pdf = Pdf::loadView('admin.verifikasi.pkl.surat', compact('pkl'));
+        $pdf = Pdf::loadView('admin.verifikasi.pkl.surat', compact('pkl'));
 
-    return $pdf->stream('surat_pkl.pdf'); // tampilkan di browser
-}
+        return $pdf->stream('surat_pkl.pdf');
+    }
 
-public function download($id)
-{
-    $pkl = PengajuanPkl::with('user')->findOrFail($id);
+    public function download($id)
+    {
+        $pkl = PengajuanPkl::with('user')->findOrFail($id);
 
-    $pdf = Pdf::loadView('admin.verifikasi.pkl.surat', compact('pkl'));
+        $pdf = Pdf::loadView('admin.verifikasi.pkl.surat', compact('pkl'));
 
-    return $pdf->download('surat_pkl.pdf'); // langsung download
-}
-
+        return $pdf->download('surat_pkl.pdf');
+    }
 }

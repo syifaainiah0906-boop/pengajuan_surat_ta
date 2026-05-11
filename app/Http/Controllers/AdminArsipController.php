@@ -41,25 +41,25 @@ class AdminArsipController extends Controller
             });
 
         // ================= GABUNG =================
-        $data = $pkl->concat($penelitian);
+        $penelitian = $pkl->concat($penelitian);
 
         // ================= FILTER JENIS =================
         if ($request->filled('jenis')) {
-            $data = $data->filter(function ($item) use ($request) {
+            $penelitian = $penelitian->filter(function ($item) use ($request) {
                 return $item->jenis_surat === $request->jenis;
             });
         }
 
         // ================= FILTER STATUS =================
         if ($request->filled('status')) {
-            $data = $data->filter(function ($item) use ($request) {
+            $penelitian = $penelitian->filter(function ($item) use ($request) {
                 return strtolower($item->status) === strtolower($request->status);
             });
         }
 
         // ================= SEARCH =================
         if ($request->filled('search')) {
-            $data = $data->filter(function ($item) use ($request) {
+            $penelitian = $penelitian->filter(function ($item) use ($request) {
                 return str_contains(
                     strtolower($item->user->name ?? ''),
                     strtolower($request->search)
@@ -68,20 +68,20 @@ class AdminArsipController extends Controller
         }
 
         // ================= SORT =================
-        $data = $data->sortByDesc('created_at')->values();
+        $penelitian = $penelitian->sortByDesc('created_at')->values();
 
         // ================= PAGINATION =================
         $currentPage = LengthAwarePaginator::resolveCurrentPage();
         $perPage = 10;
 
-        $currentItems = $data->slice(
+        $currentItems = $penelitian->slice(
             ($currentPage - 1) * $perPage,
             $perPage
         );
 
         $arsip = new LengthAwarePaginator(
             $currentItems,
-            $data->count(),
+            $penelitian->count(),
             $perPage,
             $currentPage,
             [
@@ -92,32 +92,40 @@ class AdminArsipController extends Controller
 
         return view('admin.arsip.index', compact('arsip'));
     }
-
     // ================= PREVIEW (HTML) =================
     public function preview($jenis, $id)
 {
     if ($jenis == 'PKL') {
-        $data = PengajuanPkl::with('user')->findOrFail($id);
-    } else {
-        $data = PengajuanPenelitian::with('user')->findOrFail($id);
-    }
 
-    $pdf = Pdf::loadView('surat.template', compact('data', 'jenis'));
+        $pkl = PengajuanPkl::with('user')->findOrFail($id);
+
+        $pdf = Pdf::loadView(
+            'admin.verifikasi.pkl.pdf',
+            compact('pkl', 'jenis')
+        );
+
+    } else {
+
+        $penelitian = PengajuanPenelitian::with('user')->findOrFail($id);
+
+        $pdf = Pdf::loadView(
+            'admin.verifikasi.penelitian.pdf',
+            compact('penelitian', 'jenis')
+        );
+    }
 
     return $pdf->stream('surat_'.$jenis.'.pdf');
-
-    }
-
+}
     // ================= DOWNLOAD PDF =================
     public function download($jenis, $id)
     {
         if ($jenis == 'PKL') {
-            $data = PengajuanPkl::with('user')->findOrFail($id);
+            $penelitian = PengajuanPkl::with('user')->findOrFail($id);
         } else {
-            $data = PengajuanPenelitian::with('user')->findOrFail($id);
+            $penelitian = PengajuanPenelitian::with('user')->findOrFail($id);
         }
 
-        $pdf = Pdf::loadView('surat.template', compact('data', 'jenis'));
+        $pdf = Pdf::loadView('surat.pdf', compact('penelitian', 'jenis'));
 
         return $pdf->download('surat_' . strtolower($jenis) . '_' . $id . '.pdf');
     }

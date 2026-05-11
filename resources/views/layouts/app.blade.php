@@ -1,26 +1,27 @@
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>@yield('title')</title>
-        @vite('resources/css/app.css')
-    </head>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@yield('title')</title>
 
-    <body class="bg-gradient-to-br from-blue-50 via-white to-yellow-50">
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
+</head>
 
-        <!-- Wrapper -->
-        <div class="flex flex-col min-h-screen">
+<body class="bg-gradient-to-br from-blue-50 via-white to-yellow-50">
 
-            <!-- Navbar -->
-            @include('components.navbar')
+    <!-- Wrapper -->
+    <div class="flex flex-col min-h-screen">
 
-            <!-- Content -->
-            <main class="flex-1">
-                @yield('content')
-            </main>
+        <!-- ✅ NAVBAR -->
+        @include('components.navbar')
 
-        </div>
-        
-    </body>
+        <!-- ✅ CONTENT -->
+        <main class="flex-1">
+            @yield('content')
+        </main>
+
+    </div>
+
+</body>
 </html>

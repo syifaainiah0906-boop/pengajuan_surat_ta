@@ -85,6 +85,11 @@ Route::middleware(['auth'])->group(function () {
     // DOWNLOAD PDF
     Route::get('/arsip/{jenis}/{id}/pdf', [AdminArsipController::class, 'download'])->name('admin.arsip.pdf');
 
-    
-
 });
+// ================= BAA =================
+    Route::middleware(['auth', 'role:baa'])->prefix('admin')->name('admin.')->group(function () {
+    Route::get('/arsip', [AdminArsipController::class, 'index'])->name('arsip.index');
+    Route::get('/arsip/{jenis}/{id}/preview', [AdminArsipController::class, 'preview'])->name('arsip.preview');
+    Route::get('/arsip/{jenis}/{id}/pdf', [AdminArsipController::class, 'download'])->name('arsip.pdf');
+
+    });

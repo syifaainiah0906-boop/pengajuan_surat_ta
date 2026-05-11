@@ -40,12 +40,21 @@
                         Ajukan surat pengantar untuk keperluan Praktik Kerja Lapangan ke instansi tujuan.
                     </p>
 
-                    <a href="{{ route('pengajuan.pkl.create') }}" class="inline-flex items-center text-lg text-blue-600 font-semibold hover:text-blue-700 transition-colors group-hover:underline decoration-yellow-400 decoration-2 underline-offset-4">
-                        Isi Form Pengajuan
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-2 transform group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
-                        </svg>
-                    </a>
+                    {{-- KONDISI TAMBAHAN PKL --}}
+                    @if($punyaPengajuanAktifPkl)
+                        <button onclick="showModal()" 
+                            class="inline-flex items-center text-lg text-gray-400 font-semibold cursor-not-allowed">
+                            Isi Form Pengajuan
+                        </button>
+                    @else
+                        <a href="{{ route('pengajuan.pkl.create') }}" 
+                           class="inline-flex items-center text-lg text-blue-600 font-semibold hover:text-blue-700 transition-colors group-hover:underline decoration-yellow-400 decoration-2 underline-offset-4">
+                            Isi Form Pengajuan
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-2 transform group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                            </svg>
+                        </a>
+                    @endif
 
                 </div>
             </div>
@@ -59,7 +68,7 @@
                     
                     <div class="w-16 h-16 bg-blue-50 rounded-xl flex items-center justify-center mb-6 text-blue-600 group-hover:bg-blue-600 group-hover:text-white transition-colors">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2 2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                         </svg>
                     </div>
 
@@ -71,12 +80,21 @@
                         Ajukan surat izin penelitian untuk keperluan Skripsi atau Tugas Akhir.
                     </p>
 
-                    <a href="{{ route('pengajuan.penelitian.create') }}" class="inline-flex items-center text-lg text-blue-600 font-semibold hover:text-blue-700 transition-colors group-hover:underline decoration-yellow-400 decoration-2 underline-offset-4">
-                        Isi Form Pengajuan
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-2 transform group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
-                        </svg>
-                    </a>
+                    {{-- KONDISI TAMBAHAN PENELITIAN --}}
+                    @if($punyaPengajuanAktif)
+                        <button onclick="showModal()" 
+                            class="inline-flex items-center text-lg text-gray-400 font-semibold cursor-not-allowed">
+                            Isi Form Pengajuan
+                        </button>
+                    @else
+                        <a href="{{ route('pengajuan.penelitian.create') }}" 
+                           class="inline-flex items-center text-lg text-blue-600 font-semibold hover:text-blue-700 transition-colors group-hover:underline decoration-yellow-400 decoration-2 underline-offset-4">
+                            Isi Form Pengajuan
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-2 transform group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                            </svg>
+                        </a>
+                    @endif
 
                 </div>
             </div>
@@ -84,4 +102,29 @@
         </div>
     </main>
 </div>
+
+{{-- MODAL --}}
+<div id="modalAlert" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center">
+    <div class="bg-white p-6 rounded-lg text-center">
+        <h2 class="font-bold text-lg mb-2">Tidak Bisa Mengajukan</h2>
+        <p class="text-gray-600 mb-4">
+            Anda masih memiliki pengajuan aktif.
+        </p>
+        <button onclick="closeModal()" class="px-4 py-2 bg-blue-600 text-white rounded-lg">
+            OK
+        </button>
+    </div>
+</div>
+
+<script>
+function showModal() {
+    document.getElementById('modalAlert').classList.remove('hidden');
+    document.getElementById('modalAlert').classList.add('flex');
+}
+
+function closeModal() {
+    document.getElementById('modalAlert').classList.add('hidden');
+}
+</script>
+
 @endsection

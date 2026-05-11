@@ -21,35 +21,55 @@
 
             <!-- RIGHT -->
             <div class="hidden md:flex items-center space-x-8">
-                
-                <a href="{{ route('dashboard') }}" 
-                   class="{{ Request::routeIs('dashboard') ? 'text-blue-600 font-semibold border-b-2 border-blue-600' : 'text-gray-500 hover:text-blue-600' }} pb-1 transition">
-                   Dashboard
+
+            {{-- ADMIN --}}
+            @if(Auth::user()->role == 'admin')
+                <a href="{{ route('admin.dashboard') }}" 
+                class="{{ Request::routeIs('admin.dashboard') ? 'text-blue-600 font-semibold border-b-2 border-blue-600' : 'text-gray-500 hover:text-blue-600' }} pb-1 transition">
+                Dashboard
                 </a>
 
-                @if(Auth::user()->role == 'admin')
-                    <a href="{{ route('admin.verifikasi.index') }}" 
-                        class="{{ Request::routeIs('admin.verifikasi*') ? 'text-blue-600 font-semibold border-b-2 border-blue-600' : 'text-gray-500 hover:text-blue-600' }} pb-1 transition">
-                        Verifikasi
-                    </a>
-                    <a href="{{ route('admin.arsip.index') }}" 
-                       class="{{ Request::routeIs('admin.arsip*') ? 'text-blue-600 font-semibold border-b-2 border-blue-600' : 'text-gray-500 hover:text-blue-600' }} pb-1 transition">
-                        Arsip
-                    </a>
-                @else
-                    <a href="{{ route('status-pengajuan.index') }}" 
-                       class="{{ Request::is('status-pengajuan*') ? 'text-blue-600 font-semibold border-b-2 border-blue-600' : 'text-gray-500 hover:text-blue-600' }} pb-1 transition">
-                       Status Pengajuan
-                    </a>
-                @endif
-                
-                <form action="{{ route('logout') }}" method="POST">
-                    @csrf
-                    <button type="submit" class="bg-red-50 text-red-600 px-4 py-2 rounded-lg font-medium hover:bg-red-100 transition">
-                        Logout
-                    </button>
-                </form>
-            </div>
+                <a href="{{ route('admin.verifikasi.index') }}" 
+                class="{{ Request::routeIs('admin.verifikasi*') ? 'text-blue-600 font-semibold border-b-2 border-blue-600' : 'text-gray-500 hover:text-blue-600' }} pb-1 transition">
+                Verifikasi
+                </a>
+
+                <a href="{{ route('admin.arsip.index') }}" 
+                class="{{ Request::routeIs('admin.arsip*') ? 'text-blue-600 font-semibold border-b-2 border-blue-600' : 'text-gray-500 hover:text-blue-600' }} pb-1 transition">
+                Arsip
+                </a>
+            @endif
+
+            {{-- USER --}}
+            @if(Auth::user()->role == 'user')
+                <a href="{{ route('dashboard') }}" 
+                class="{{ Request::routeIs('dashboard') ? 'text-blue-600 font-semibold border-b-2 border-blue-600' : 'text-gray-500 hover:text-blue-600' }} pb-1 transition">
+                Dashboard
+                </a>
+
+                <a href="{{ route('status-pengajuan.index') }}" 
+                class="{{ Request::is('status-pengajuan*') ? 'text-blue-600 font-semibold border-b-2 border-blue-600' : 'text-gray-500 hover:text-blue-600' }} pb-1 transition">
+                Status Pengajuan
+                </a>
+            @endif
+
+            {{-- BAA (HANYA ARSIP) --}}
+            @if(Auth::user()->role == 'baa')
+                <a href="{{ route('admin.arsip.index') }}" 
+                class="{{ Request::routeIs('admin.arsip*') ? 'text-blue-600 font-semibold border-b-2 border-blue-600' : 'text-gray-500 hover:text-blue-600' }} pb-1 transition">
+                Arsip
+                </a>
+            @endif
+
+            {{-- LOGOUT --}}
+            <form action="{{ route('logout') }}" method="POST">
+                @csrf
+                <button type="submit" class="bg-red-50 text-red-600 px-4 py-2 rounded-lg font-medium hover:bg-red-100 transition">
+                    Logout
+                </button>
+            </form>
+
+        </div>
 
         </div>
     </div>

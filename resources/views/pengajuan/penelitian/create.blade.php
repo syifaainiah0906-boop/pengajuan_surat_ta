@@ -12,13 +12,27 @@
         </div>
 
         <div class="bg-white rounded-2xl shadow-lg border border-gray-100 p-8">
+
+            {{-- ALERT --}}
+            @if(session('error'))
+                <div class="mb-4 p-4 bg-red-100 text-red-700 rounded-lg">
+                    {{ session('error') }}
+                </div>
+            @endif
+
+            @if(session('success'))
+                <div class="mb-4 p-4 bg-green-100 text-green-700 rounded-lg">
+                    {{ session('success') }}
+                </div>
+            @endif
+
             <form action="{{ route('pengajuan.penelitian.store') }}" method="POST" class="space-y-6">
                 @csrf
 
                 <div>
                     <label class="block text-sm font-bold text-gray-700 mb-2">Tanggal Pengajuan</label>
                     <input type="text" value="{{ $tanggal_sekarang }}" readonly 
-                        class="w-full px-4 py-3 bg-gray-100 border border-gray-300 rounded-lg text-gray-600 focus:outline-none cursor-not-allowed">
+                        class="w-full px-4 py-3 bg-gray-100 border border-gray-300 rounded-lg text-gray-600 cursor-not-allowed">
                 </div>
 
                 <div>
@@ -31,74 +45,106 @@
                     <div>
                         <label class="block text-sm font-bold text-gray-700 mb-2">Nama</label>
                         <input type="text" value="{{ $user->name }}" readonly 
-                            class="w-full px-4 py-3 bg-gray-100 border border-gray-300 rounded-lg text-gray-600 focus:outline-none cursor-not-allowed">
+                            class="w-full px-4 py-3 bg-gray-100 border border-gray-300 rounded-lg text-gray-600 cursor-not-allowed">
                     </div>
 
                     <div>
                         <label class="block text-sm font-bold text-gray-700 mb-2">NIM</label>
                         <input type="text" value="{{ $user->nim }}" readonly 
-                            class="w-full px-4 py-3 bg-gray-100 border border-gray-300 rounded-lg text-gray-600 focus:outline-none cursor-not-allowed">
+                            class="w-full px-4 py-3 bg-gray-100 border border-gray-300 rounded-lg text-gray-600 cursor-not-allowed">
                     </div>
                 </div>
 
                 <div>
                     <label class="block text-sm font-bold text-gray-700 mb-2">Nomor Handphone</label>
                     <input type="text" name="nomor_handphone" required placeholder="Masukkan nomor handphone"
-                        class="w-full px-4 py-3 bg-white border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 outline-none transition">
+                        class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 outline-none">
                 </div>
 
                 <div>
                     <label class="block text-sm font-bold text-gray-700 mb-2">Tempat Penelitian</label>
-                    <input type="text" name="tempat_penelitian" required placeholder="Masukkan nama instansi / perusahaan"
-                        class="w-full px-4 py-3 bg-white border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 outline-none transition">
+                    <input type="text" name="tempat_penelitian" required placeholder="Masukkan nama instansi"
+                        class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 outline-none">
                 </div>
 
                 <div>
                     <label class="block text-sm font-bold text-gray-700 mb-2">Alamat Tempat Penelitian</label>
-                    <textarea name="alamat_tempat_penelitian" rows="3" required placeholder="Masukkan alamat lengkap instansi"
-                        class="w-full px-4 py-3 bg-white border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 outline-none transition"></textarea>
+                    <textarea name="alamat_tempat_penelitian" rows="3" required placeholder="Masukkan alamat lengkap"
+                        class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 outline-none"></textarea>
                 </div>
 
                 <div>
-                    <label class="block text-sm font-bold text-gray-700 mb-2">Tujuan Surat (Jabatan)</label>
-                    <input type="text" name="tujuan_surat" required placeholder="Contoh: Direktur Politeknik Hasnur, Kepala DISKOMINFO, dll"
-                        class="w-full px-4 py-3 bg-white border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 outline-none transition">
-                    <p class="text-xs text-gray-500 mt-1">Surat pengantar ditujukan ke jabatan pimpinan instansi.</p>
+                    <label class="block text-sm font-bold text-gray-700 mb-2">Tujuan Surat</label>
+                    <input type="text" name="tujuan_surat" required placeholder="Direktur Politeknk Hasnur, kepala Diskominfo, dll"
+                        class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 outline-none">
                 </div>
 
                 <div>
                     <label class="block text-sm font-bold text-gray-700 mb-2">Judul Tugas Akhir</label>
-                    <input type="text" name="judul_ta" required placeholder="Masukkan Judul Skripsi / Tugas Akhir Anda"
-                        class="w-full px-4 py-3 bg-white border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 outline-none transition">
+                    <input type="text" name="judul_ta" required placeholder="Masukkan judul tugas akhir / skripsi"
+                        class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 outline-none">
                 </div>
 
                 <div>
-                    <label class="block text-sm font-bold text-gray-700 mb-2">Pembimbing Tugas Akhir</label>
-                    <select name="pembimbing_ta" required class="w-full px-4 py-3 bg-white border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 outline-none transition">
+                    <label class="block text-sm font-bold text-gray-700 mb-2">Pembimbing</label>
+                    <select name="pembimbing_ta" required class="w-full px-4 py-3 border border-gray-300 rounded-lg">
                         <option value="">-- Pilih Dosen --</option>
                         @foreach(App\Models\DosenPembimbing::all() as $dosen)
-                            <option value="{{ $dosen->nama }}">{{ $dosen->nama }} - {{ $dosen->prodi }}</option>
+                            <option value="{{ $dosen->nama }}">{{ $dosen->nama }}</option>
                         @endforeach
                     </select>
                 </div>
 
                 <div>
-                    <label class="block text-sm font-bold text-gray-700 mb-2">Nomor HP Dosen Pembimbing</label>
+                    <label class="block text-sm font-bold text-gray-700 mb-2">No HP Pembimbing</label>
                     <input type="text" name="no_hp_pembimbing" required placeholder="Contoh: 081234567890"
-                        class="w-full px-4 py-3 bg-white border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 outline-none transition">
+                        class="w-full px-4 py-3 border border-gray-300 rounded-lg">
                 </div>
 
-                <div class="pt-4 flex items-center justify-end space-x-4">
-                    <a href="{{ route('dashboard') }}" class="px-6 py-3 bg-gray-200 text-gray-700 font-semibold rounded-lg hover:bg-gray-300 transition">
+                <div class="flex justify-end space-x-4">
+                    <a href="{{ route('dashboard') }}" class="px-6 py-3 bg-gray-200 rounded-lg">
                         Batal
                     </a>
-                    <button type="submit" class="px-8 py-3 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg shadow-md transition duration-300 transform hover:scale-105">
-                        Ajukan Surat Pengantar Penelitian
-                    </button>
+
+                    @if($punyaPengajuanAktif)
+                        <button type="button" onclick="showModal()" 
+                            class="px-8 py-3 bg-gray-400 text-white rounded-lg cursor-not-allowed">
+                            Sudah Ada Pengajuan Aktif
+                        </button>
+                    @else
+                        <button type="submit" class="px-8 py-3 bg-blue-600 text-white rounded-lg">
+                            Ajukan Surat
+                        </button>
+                    @endif
                 </div>
 
             </form>
         </div>
     </div>
 </div>
+
+{{-- MODAL --}}
+<div id="modalAlert" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center">
+    <div class="bg-white p-6 rounded-lg text-center">
+        <h2 class="font-bold text-lg mb-2">Tidak Bisa Mengajukan</h2>
+        <p class="text-gray-600 mb-4">
+            Anda masih memiliki pengajuan aktif. Silakan tunggu atau ajukan kembali jika ditolak.
+        </p>
+        <button onclick="closeModal()" class="px-4 py-2 bg-blue-600 text-white rounded-lg">
+            OK
+        </button>
+    </div>
+</div>
+
+<script>
+function showModal() {
+    document.getElementById('modalAlert').classList.remove('hidden');
+    document.getElementById('modalAlert').classList.add('flex');
+}
+
+function closeModal() {
+    document.getElementById('modalAlert').classList.add('hidden');
+}
+</script>
+
 @endsection
