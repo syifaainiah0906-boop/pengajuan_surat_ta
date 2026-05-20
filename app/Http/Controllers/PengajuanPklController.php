@@ -125,4 +125,18 @@ class PengajuanPklController extends Controller
 
         return $pdf->download('surat_pkl.pdf');
     }
+
+    public function showPkl($id)
+{
+    $pkl = PengajuanPkl::with('user')
+        ->where('user_id', auth()->id())
+        ->findOrFail($id);
+
+    $pdf = Pdf::loadView(
+        'admin.verifikasi.pkl.pdf',
+        compact('pkl')
+    );
+
+    return $pdf->stream('surat_pkl.pdf');
+}
 }

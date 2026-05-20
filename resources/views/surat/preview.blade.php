@@ -1,131 +1,267 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Surat {{ $jenis }}</title>
+    <title>Surat PKL</title>
+
     <style>
-        body {
-            font-family: "Times New Roman", serif;
-            margin: 50px;
-            line-height: 1.6;
+        @page {
+            size: A4;
+            margin: 10mm 25mm 20mm 25mm;
         }
-        .text-right { text-align: right; }
-        .text-center { text-align: center; }
-        table { border-collapse: collapse; }
+
+        body{
+            font-family: Arial, sans-serif;
+            font-size: 11pt;
+            line-height: 1.6;
+            color: black;
+        }
+
+        .header{
+            width: 100%;
+            margin-top: -10px;
+        }
+
+        .tanggal{
+            text-align: right;
+            margin-top: 15px;
+        }
+
+        .judul{
+            margin-top: 25px;
+            width: 100%;
+        }
+
+        .judul td{
+            padding: 2px 0;
+            vertical-align: top;
+        }
+
+        .isi{
+            text-align: justify;
+            margin-top: 20px;
+        }
+
+        .data{
+            margin-top: 15px;
+            margin-left: 40px;
+            width: 100%;
+        }
+
+        .data td{
+            padding: 2px 0;
+            vertical-align: top;
+        }
+
+        .ttd{
+            width: 260px;
+            margin-left: auto;
+            margin-top: 25px;
+            text-align: center;
+        }
+
+        .footer{
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            font-size: 9pt;
+        }
+
+        .footer table{
+            width: 100%;
+        }
+
+        .footer-left{
+            width: 50%;
+            padding-right: 15px;
+        }
+
+        .footer-right{
+            width: 50%;
+            text-align: right;
+            padding-left: 15px;
+        }
     </style>
 </head>
 
 <body>
 
-    <!-- HEADER -->
-    <div class="text-center">
-        <h3>POLITEKNIK HASNUR</h3>
-        <p>
-            Jl. Brigjen H. Hasan Basri, Handil Bakti <br>
-            Kalimantan Selatan
-        </p>
-        <hr>
-    </div>
+@php
+    \Carbon\Carbon::setLocale('id');
+@endphp
 
-    <!-- TANGGAL -->
-    <p class="text-right">
-        Barito Kuala, {{ \Carbon\Carbon::now()->translatedFormat('d F Y') }}
+<!-- HEADER -->
+<table class="header">
+    <tr>
+        <td>
+            <img src="{{ public_path('images/logo-polhas.png') }}"
+                 style="width: 300px;">
+        </td>
+    </tr>
+</table>
+
+<hr style="
+    border: 2px solid #3f6ca4;
+    width: calc(100% + 50mm);
+    margin-left: -25mm;
+    
+">
+
+<!-- TANGGAL -->
+<div class="tanggal">
+    Barito Kuala, {{ \Carbon\Carbon::now()->translatedFormat('d F Y') }}
+</div>
+
+<!-- NOMOR -->
+<table class="judul">
+    <tr>
+        <td width="80">Nomor</td>
+        <td width="10">:</td>
+        <td>{{ $pkl->nomor_surat ?? '-' }}</td>
+    </tr>
+
+    <tr>
+        <td>Perihal</td>
+        <td>:</td>
+        <td><b>PRAKTIK KERJA LAPANGAN</b></td>
+    </tr>
+</table>
+
+<br>
+
+<!-- TUJUAN -->
+<b>Kepada Yth.</b><br>
+<b>{{ $pkl->tujuan_surat ?? '-' }}</b><br>
+<b>Di - Tempat</b>
+
+<br>
+
+<div class="isi">
+    <p style="text-align: justify; margin: 0;">
+    Dengan Hormat,<br>
+    <span style="display:inline-block; text-indent: 40px;">
+        Sehubungan dengan pelaksanaan kegiatan Praktik Kerja Lapangan (PKL)
+        di Program Studi D3 Teknik Informatika Politeknik Hasnur,
+        maka dengan ini kami mohon kepada Bapak/Ibu
+    <b>{{ $pkl->tempat_pkl ?? '-' }}</b>
+    agar dapat memberikan izin kepada mahasiswa kami untuk melaksanakan
+    kegiatan Praktik Kerja Lapangan (PKL) yang akan dilaksanakan pada:
+    </span>
+</p>
+</div>
+
+<!-- DATA -->
+<table class="data" style="margin-top: 5;">
+    <tr>
+        @php
+    $start = \Carbon\Carbon::parse($pkl->tanggal_mulai);
+    $end = \Carbon\Carbon::parse($pkl->tanggal_selesai);
+
+    $bulan = $start->diffInMonths($end);
+@endphp
+
+<td width="115">Tanggal</td>
+<td width="10">:</td>
+<td>
+    {{ $start->translatedFormat('d F Y') }}
+    -
+    {{ $end->translatedFormat('d F Y') }}
+    ({{ (int) $bulan }} Bulan)
+</td>
+    </tr>
+
+    <tr>
+        <td>Tempat</td>
+        <td>:</td>
+        <td>{{ $pkl->tempat_pkl ?? '-' }}</td>
+    </tr>
+
+    <tr>
+        <td>Nama (NIM)</td>
+        <td>:</td>
+        <td>
+            {{ $pkl->user->name }}
+            ({{ $pkl->user->nim }})
+        </td>
+    </tr>
+
+    <tr>
+        <td>No Handphone</td>
+        <td>:</td>
+        <td>{{ $pkl->nomor_handphone ?? '-' }}</td>
+    </tr>
+
+    <tr>
+        <td>Dosen Pembimbing</td>
+        <td>:</td>
+        <td>{{ $pkl->pembimbing_pkl ?? '-' }}</td>
+    </tr>
+
+    <tr>
+        <td>No Handphone Dosen</td>
+        <td>:</td>
+        <td>{{ $pkl->no_hp_pembimbing ?? '-' }}</td>
+    </tr>
+</table>
+
+<div class="isi" style="margin-top: 5;">
+    <p style="margin: 0; text-align: justify; text-indent: 40px;">
+        Demikian surat permohonan ini kami sampaikan,
+        atas bantuan dan kerjasamanya disampaikan terimakasih.
     </p>
+</div>
 
-    <!-- NOMOR -->
-    <p>
-        Nomor : {{ $data->nomor_surat ?? '-' }} <br>
-        Perihal :
-        <b>
-            {{ $jenis == 'PKL' ? 'Praktik Kerja Lapangan' : 'Penelitian' }}
-        </b>
-    </p>        
+<!-- TTD -->
+<div class="ttd" style="text-align: left; width: 250px; margin-left: auto;">
+    Hormat Kami, <br>
+    Koordinator Program Studi <br>
+    D3 Teknik Informatika
 
-    <br>
+    <br><br><br><br><br>
 
-    <!-- TUJUAN -->
-    <p>
-        Kepada Yth. <br>
-        {{ $data->instansi ?? '-' }} <br>
-        Di - Tempat
-    </p>
+    Yazid Aufar, M.Kom.<br>
+    NIK. 190224
+</div>
 
-    <p>Dengan Hormat,</p>
-
-    <!-- ISI -->
-    <p style="text-align: justify;">
-        @if($jenis == 'PKL')
-            Sehubungan dengan pelaksanaan kegiatan Praktik Kerja Lapangan (PKL),
-            maka dengan ini kami mohon izin agar mahasiswa berikut dapat melaksanakan PKL:
-        @else
-            Sehubungan dengan pelaksanaan kegiatan penelitian,
-            maka dengan ini kami mohon izin agar mahasiswa berikut dapat melaksanakan penelitian:
-        @endif
-    </p>
-
-    <!-- DATA KEGIATAN -->
+<!-- FOOTER -->
+<div class="footer">
     <table>
-        @if($jenis == 'PKL')
-            <tr>
-                <td width="150">Tanggal</td>
-                <td>: {{ $data->tanggal_mulai }} - {{ $data->tanggal_selesai }}</td>
-            </tr>
-            <tr>
-                <td>Tempat</td>
-                <td>: {{ $data->tempat }}</td>
-            </tr>
-        @else
-            <tr>
-                <td width="150">Judul</td>
-                <td>: {{ $data->judul ?? '-' }}</td>
-            </tr>
-            <tr>
-                <td>Lokasi</td>
-                <td>: {{ $data->lokasi ?? '-' }}</td>
-            </tr>
-        @endif
-    </table>
+        <tr>
+            <td class="footer-left">
+                <b>
+                    <span style="color: #20436e;">
+                        POLITEKNIK HASNUR
+                    </span>
+                </b><br>
 
-    <br>
+                <span style="color: #4F81BD;">
+                    Jl. Brigjen H. Hasan Basri, Handil Bakti Ray V,
+                    Kec. Alalak, Kab. Barito Kuala,
+                    Prov. Kalimantan Selatan, 70125
+                </span>
+            </td>
 
-    <!-- DATA MAHASISWA -->
-    <table>
-        <tr>
-            <td width="150">Nama (NIM)</td>
-            <td>: {{ $data->user->name }} ({{ $data->user->nim }})</td>
-        </tr>
-        <tr>
-            <td>No HP</td>
-            <td>: {{ $data->user->no_hp ?? '-' }}</td>
-        </tr>
-        <tr>
-            <td>Dosen Pembimbing</td>
-            <td>: {{ $data->dosen ?? '-' }}</td>
-        </tr>
-        <tr>
-            <td>No HP Dosen</td>
-            <td>: {{ $data->no_hp_dosen ?? '-' }}</td>
+            <!-- GARIS -->
+            <td style="width:1px; border-left:1px solid black;"></td>
+
+            <td class="footer-right">
+                <span style="color: #d41743;">Telepon</span>
+                <span style="color: #4F81BD;">0511-3306886</span>
+
+                <span style="color: #d41743;">Fax</span>
+                <span style="color: #4F81BD;">0511-3301765</span>
+                <br>
+
+                <span style="color: #d41743;">Website</span>
+                <span style="color: #4F81BD;">polihasnur.ac.id</span>
+                <br>
+
+                <span style="color: #d41743;">E-mail</span>
+                <span style="color: #4F81BD;">polihasnur@polihasnur.ac.id</span>
+            </td>
         </tr>
     </table>
-
-    <br>
-
-    <!-- PENUTUP -->
-    <p>
-        Demikian surat ini disampaikan, atas perhatian dan kerjasamanya diucapkan terima kasih.
-    </p>
-
-    <br><br>
-
-    <!-- TTD -->
-    <div class="text-right">
-        Hormat Kami,<br>
-        Koordinator Program Studi<br>
-        D3 Teknik Informatika
-        <br><br><br>
-
-        <b>Yazid Aufar, M.Kom.</b><br>
-        NIK. 190224
-    </div>
+</div>
 
 </body>
 </html>

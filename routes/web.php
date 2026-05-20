@@ -33,11 +33,12 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('/pengajuan/pkl', [PengajuanPklController::class, 'create'])->name('pengajuan.pkl.create');
     Route::post('/pengajuan/pkl', [PengajuanPklController::class, 'store'])->name('pengajuan.pkl.store');
-    Route::get('/pkl/approve/{id}', [PengajuanPklController::class, 'approve'])->name('pkl.approve');
+    Route::get('/verifikasi/pkl/{id}/pdf',[PengajuanPklController::class, 'showPkl'])->name('admin.verifikasi.pkl.pdf');
 
     Route::get('/pengajuan/penelitian', [PengajuanPenelitianController::class, 'create'])->name('pengajuan.penelitian.create');
     Route::post('/pengajuan/penelitian', [PengajuanPenelitianController::class, 'store'])->name('pengajuan.penelitian.store');
-
+    Route::get('/verifikasi/penelitian/{id}/pdf',[PengajuanPenelitianController::class, 'showPenelitian'])->name('admin.verifikasi.penelitian.pdf');
+    
     Route::get('/status-pengajuan', [StatusPengajuanController::class, 'index'])->name('status-pengajuan.index');
 
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
@@ -56,7 +57,8 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('/verifikasi/pkl', [AdminVerifikasiController::class, 'indexPkl'])->name('admin.verifikasi.pkl.index');
     // show biasa
-    Route::get('/verifikasi/pkl/{id}', [AdminVerifikasiController::class, 'show'])->name('admin.verifikasi.pkl.show');    Route::patch('/verifikasi/pkl/{id}', [AdminVerifikasiController::class, 'updateStatusPkl'])->name('admin.verifikasi.pkl.update');
+    Route::get('/verifikasi/pkl/{id}', [AdminVerifikasiController::class, 'show'])->name('admin.verifikasi.pkl.show');    
+    Route::patch('/verifikasi/pkl/{id}', [AdminVerifikasiController::class, 'updateStatusPkl'])->name('admin.verifikasi.pkl.update');
     Route::get('/admin/verifikasi/pkl/detail/{id}', [AdminVerifikasiController::class, 'detailPkl'])->name('admin.verifikasi.pkl.detail');
     Route::get('/admin/verifikasi/pkl/{id}/pdf', [AdminArsipController::class, 'showPkl'])->name('admin.verifikasi.pkl.pdf');
     // preview surat (PDF / tampilan surat)

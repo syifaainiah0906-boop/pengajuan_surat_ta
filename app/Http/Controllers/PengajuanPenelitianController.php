@@ -112,4 +112,18 @@ public function store(Request $request)
 
         return $pdf->download('surat_penelitian.pdf');
     }
+
+    public function showPenelitian($id)
+{
+    $penelitian = PengajuanPenelitian::with('user')
+        ->where('user_id', auth()->id())
+        ->findOrFail($id);
+
+    $pdf = Pdf::loadView(
+        'admin.verifikasi.penelitian.pdf',
+        compact('penelitian')
+    );
+
+    return $pdf->stream('surat_penelitian.pdf');
+}
 }

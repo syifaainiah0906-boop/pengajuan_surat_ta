@@ -13,7 +13,7 @@ class AdminSeeder extends Seeder
         User::updateOrCreate(
             ['username' => 'adminprodi@gmail.com'],
             [
-                'name' => 'Admin',
+                'name' => 'Prodi D3 Teknik Informatika',
                 'nim' => 'admin',
                 'prodi' => 'D3 Teknik Informatika',
                 'role' => 'admin',
@@ -22,7 +22,7 @@ class AdminSeeder extends Seeder
         );
 
         User::create([
-            'name' => 'BAA',
+            'name' => 'Biro Administrasi Akademik',
             'nim' => 'baa',
             'prodi' => 'D3 Teknik Informatika',
             'username' => 'baa@gmail.com',

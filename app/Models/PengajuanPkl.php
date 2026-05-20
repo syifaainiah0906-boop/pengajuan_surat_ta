@@ -15,6 +15,8 @@ class PengajuanPkl extends Model
         'nomor_surat',
         'nomor_handphone',
         'tempat_pkl',
+        'tanggal_mulai',
+        'tanggal_selesai',
         'alamat_tempat_pkl',
         'tujuan_surat',
         'pembimbing_pkl',
@@ -23,6 +25,8 @@ class PengajuanPkl extends Model
     ];
     protected $casts = [
     'tanggal_pengajuan' => 'datetime',
+    'tanggal_mulai' => 'datetime',
+    'tanggal_selesai' => 'datetime',
 ];
 
     public function user()

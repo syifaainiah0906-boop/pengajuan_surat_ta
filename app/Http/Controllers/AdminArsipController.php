@@ -104,6 +104,10 @@ class AdminArsipController extends Controller
             compact('pkl', 'jenis')
         );
 
+        $namaFile = 'Surat PKL-' .
+            $pkl->user->name . '-' .
+            $pkl->user->nim . '.pdf';
+
     } else {
 
         $penelitian = PengajuanPenelitian::with('user')->findOrFail($id);
@@ -112,21 +116,44 @@ class AdminArsipController extends Controller
             'admin.verifikasi.penelitian.pdf',
             compact('penelitian', 'jenis')
         );
+
+            $namaFile = 'Surat Penelitian ' .
+                $penelitian->user->name . ' ' .
+                $penelitian->user->nim . '.pdf';
     }
 
-    return $pdf->stream('surat_'.$jenis.'.pdf');
+    return $pdf->stream($namaFile);
 }
     // ================= DOWNLOAD PDF =================
     public function download($jenis, $id)
-    {
-        if ($jenis == 'PKL') {
-            $penelitian = PengajuanPkl::with('user')->findOrFail($id);
-        } else {
-            $penelitian = PengajuanPenelitian::with('user')->findOrFail($id);
-        }
+{
+    if ($jenis == 'PKL') {
 
-        $pdf = Pdf::loadView('surat.pdf', compact('penelitian', 'jenis'));
+        $pkl = PengajuanPkl::with('user')->findOrFail($id);
 
-        return $pdf->download('surat_' . strtolower($jenis) . '_' . $id . '.pdf');
+        $pdf = Pdf::loadView(
+            'admin.verifikasi.pkl.pdf',
+            compact('pkl', 'jenis')
+        );
+
+        $namaFile = 'Surat PKL-' .
+            str_replace(' ', '-', $pkl->user->name) . '-' .
+            $pkl->user->nim . '.pdf';
+
+    } else {
+
+        $penelitian = PengajuanPenelitian::with('user')->findOrFail($id);
+
+        $pdf = Pdf::loadView(
+            'admin.verifikasi.penelitian.pdf',
+            compact('penelitian', 'jenis')
+        );
+
+        $namaFile = 'Surat Penelitian-' .
+            str_replace(' ', '-', $penelitian->user->name) . '-' .
+            $penelitian->user->nim . '.pdf';
     }
+
+    return $pdf->download($namaFile);
+}
 }
