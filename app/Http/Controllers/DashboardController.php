@@ -53,27 +53,50 @@ class DashboardController extends Controller
 {
     $userId = Auth::id();
 
-    // CEK PENELITIAN (AMBIL DATA TERAKHIR)
-    $lastPenelitian = \App\Models\PengajuanPenelitian::where('user_id', $userId)
-        ->latest()
-        ->first();
+    /*
+    |--------------------------------------------------------------------------
+    | PENELITIAN
+    |--------------------------------------------------------------------------
+    */
 
-    $punyaPengajuanAktif = $lastPenelitian 
-        ? in_array($lastPenelitian->status, ['pending', 'disetujui']) 
-        : false;
+    $jumlahPengajuanPenelitian = PengajuanPenelitian::where(
+        'user_id',
+        $userId
+    )->count();
 
-    // CEK PKL (AMBIL DATA TERAKHIR)
-    $lastPkl = \App\Models\PengajuanPkl::where('user_id', $userId)
-        ->latest()
-        ->first();
+    $batasPengajuanPenelitian = $jumlahPengajuanPenelitian >= 5;
 
-    $punyaPengajuanAktifPkl = $lastPkl 
-        ? in_array($lastPkl->status, ['pending', 'disetujui']) 
-        : false;
+    $pengajuanPenelitianTerakhir = PengajuanPenelitian::where(
+        'user_id',
+        $userId
+    )->latest()->first();
+
+    /*
+    |--------------------------------------------------------------------------
+    | PKL
+    |--------------------------------------------------------------------------
+    */
+
+    $jumlahPengajuanPkl = PengajuanPkl::where(
+        'user_id',
+        $userId
+    )->count();
+
+    $batasPengajuanPkl = $jumlahPengajuanPkl >= 5;
+
+    $pengajuanPklTerakhir = PengajuanPkl::where(
+        'user_id',
+        $userId
+    )->latest()->first();
 
     return view('dashboard.user', compact(
-        'punyaPengajuanAktif',
-        'punyaPengajuanAktifPkl'
+        'jumlahPengajuanPenelitian',
+        'batasPengajuanPenelitian',
+        'pengajuanPenelitianTerakhir',
+
+        'jumlahPengajuanPkl',
+        'batasPengajuanPkl',
+        'pengajuanPklTerakhir'
     ));
 }
 }

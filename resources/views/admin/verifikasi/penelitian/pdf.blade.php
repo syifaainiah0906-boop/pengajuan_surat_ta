@@ -118,7 +118,7 @@
 
 <!-- TANGGAL -->
 <div class="tanggal">
-    Barito Kuala, {{ \Carbon\Carbon::now()->translatedFormat('d F Y') }}
+    Barito Kuala, {{ \Carbon\Carbon::parse($penelitian->updated_at)->translatedFormat('d F Y') }}
 </div>
 
 <!-- NOMOR -->
@@ -138,7 +138,7 @@
 
 <!-- TUJUAN -->
 <b>Kepada Yth.</b> <br>
-<b>{{ $penelitian->instansi ?? '-' }}</b> <br>
+<b>{{ $penelitian->tujuan_surat ?? '-' }}</b> <br>
 <b>Di - Tempat</b>
 
 <br><br>
@@ -187,15 +187,41 @@
 </div>
 
 <!-- TTD -->
-<div class="ttd" style="text-align: left; width: 250px; margin-left: auto;">
-    Hormat Kami, <br>
-    Koordinator Program Studi <br>
+<div class="ttd"
+     style="
+        position: relative;
+        text-align: left;
+        width: 260px;
+        margin-left: auto;
+        margin-top: 0;
+        line-height: 1.5;
+     ">
+    <br>
+    Hormat Kami,<br>
+    Koordinator Program Studi<br>
     D3 Teknik Informatika
 
-    <br><br><br><br><br>
+    <!-- FOTO TTD -->
+    <img src="{{ public_path('images/ttd-kaprodi.png') }}"
+         alt="Tanda Tangan"
+         style="
+            width: 170px;
+            position: relative;
+            top: -10px;
+            left: 0px;
+            z-index: 2;
+            opacity: 0.95;
+         ">
 
-    Yazid Aufar, M.Kom.<br>
-    NIK. 190224
+    <div style="
+        margin-top: -40px;
+        position: relative;
+        z-index: 1;
+    ">
+        <b>Yazid Aufar, M.Kom.</b><br>
+        <b>NIK. 190224</b>
+    </div>
+
 </div>
 
 <!-- FOOTER -->

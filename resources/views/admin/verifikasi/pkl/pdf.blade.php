@@ -91,25 +91,53 @@
 @endphp
 
 <!-- HEADER -->
-<table class="header">
+@php
+
+$logo = public_path('images/logo-polhas.png');
+
+$typeLogo = pathinfo($logo, PATHINFO_EXTENSION);
+
+$dataLogo = file_get_contents($logo);
+
+$logoBase64 = 'data:image/' . $typeLogo . ';base64,' . base64_encode($dataLogo);
+
+@endphp
+
+
+<!-- HEADER -->
+<table class="header" width="100%">
+
     <tr>
-        <td>
-            <img src="{{ public_path('images/logo-polhas.png') }}"
-                 style="width: 300px;">
+
+        <td align="left">
+
+           <img src="{{ $logoBase64 }}"
+     style="
+        width: 300px;
+        height: auto;
+        display: block;
+        margin-left: 0;
+     ">
+
         </td>
+
     </tr>
+
 </table>
 
 <hr style="
-    border: 2px solid #3f6ca4;
-    width: calc(100% + 50mm);
-    margin-left: -25mm;
-    
+    border: 0;
+    border-top: 3px solid #3f6ca4;
+    width: calc(100% + 80px);
+    margin-left: -40px;
+    margin-top: 5px;
+    margin-bottom: 20px;
 ">
 
 <!-- TANGGAL -->
 <div class="tanggal">
-    Barito Kuala, {{ \Carbon\Carbon::now()->translatedFormat('d F Y') }}
+    Barito Kuala,
+    {{ \Carbon\Carbon::parse($pkl->created_at)->translatedFormat('d F Y') }}
 </div>
 
 <!-- NOMOR -->
@@ -212,15 +240,58 @@
 </div>
 
 <!-- TTD -->
-<div class="ttd" style="text-align: left; width: 250px; margin-left: auto;">
-    Hormat Kami, <br>
-    Koordinator Program Studi <br>
+@php
+
+$ttd = public_path('images/ttd-kaprodi.png');
+
+$typeTtd = pathinfo($ttd, PATHINFO_EXTENSION);
+
+$dataTtd = file_get_contents($ttd);
+
+$ttdBase64 = 'data:image/' . $typeTtd . ';base64,' . base64_encode($dataTtd);
+
+@endphp
+
+
+<!-- TTD -->
+<div class="ttd" style="
+    margin-top: 30px;
+    text-align: left;
+    width: 260px;
+">
+
+    Hormat Kami,<br>
+    Koordinator Program Studi<br>
     D3 Teknik Informatika
 
-    <br><br><br><br><br>
+    <br>
 
-    Yazid Aufar, M.Kom.<br>
-    NIK. 190224
+    <div style="position: relative; height: 160px;">
+
+        <!-- GAMBAR TTD -->
+        <img src="{{ $ttdBase64 }}"
+             alt="Tanda Tangan"
+             style="
+                width: 170px;
+                position: absolute;
+                top: -15;
+                left: 0;
+                z-index: 2;
+             ">
+
+        <!-- NAMA -->
+        <div style="
+            position: absolute;
+            top: 115px;
+            left: 0;
+            z-index: 1;
+        ">
+            <b>Yazid Aufar, M.Kom.</b><br>
+            <b>NIK. 190224</b>
+        </div>
+
+    </div>
+
 </div>
 
 <!-- FOOTER -->

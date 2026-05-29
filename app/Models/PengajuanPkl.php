@@ -23,27 +23,21 @@ class PengajuanPkl extends Model
         'no_hp_pembimbing',
         'status',
     ];
+
     protected $casts = [
-    'tanggal_pengajuan' => 'datetime',
-    'tanggal_mulai' => 'datetime',
-    'tanggal_selesai' => 'datetime',
-];
+        'tanggal_pengajuan' => 'datetime',
+        'tanggal_mulai' => 'datetime',
+        'tanggal_selesai' => 'datetime',
+    ];
 
     public function user()
     {
         return $this->belongsTo(User::class);
     }
 
+    // Maksimal 5 kali pengajuan per mahasiswa
     public static function hasActive($userId)
-{
-    $latest = self::where('user_id', $userId)
-        ->latest()
-        ->first();
-
-    if (!$latest) {
-        return false; // ⬅️ INI PENTING
+    {
+        return self::where('user_id', $userId)->count() >= 5;
     }
-
-    return in_array($latest->status, ['pending', 'disetujui']);
-}
 }

@@ -40,8 +40,6 @@ class PengajuanPenelitian extends Model
     // TAMBAHAN: Helper cek pengajuan aktif
     public static function hasActive($userId)
 {
-    return self::where('user_id', $userId)
-        ->whereIn('status', ['pending', 'disetujui'])
-        ->exists();
+   return self::where('user_id', $userId)->count() >= 5;
 }
 }

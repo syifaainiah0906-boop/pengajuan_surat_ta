@@ -208,6 +208,7 @@
         cursor: pointer;
         gap: 5px;
         transition: all 0.2s;
+        flex-shrink: 0;
     }
 
     .hamburger-btn:hover {
@@ -286,11 +287,46 @@
         background: rgba(239, 68, 68, 0.14);
     }
 
+    /* =====================
+       RESPONSIVE MOBILE
+    ===================== */
     @media (max-width: 768px) {
         .desktop-nav { display: none !important; }
         .hamburger-btn { display: flex !important; }
-        .brand-title { font-size: 13px; }
-        .brand-sub { font-size: 10px; }
+
+        .navbar-inner {
+            height: auto;
+            min-height: 64px;
+            padding: 10px 1rem;
+        }
+
+        .navbar-logo {
+            height: 34px;
+        }
+
+        .navbar-brand {
+            gap: 10px;
+            flex: 1;
+            min-width: 0;
+            flex-shrink: 1;
+        }
+
+        .brand-text {
+            display: flex;
+            min-width: 0;
+        }
+
+        .brand-title {
+            font-size: 12px;
+            white-space: normal;
+            word-break: break-word;
+            line-height: 1.3;
+        }
+
+        .brand-sub {
+            font-size: 10px;
+            white-space: normal;
+        }
     }
 </style>
 

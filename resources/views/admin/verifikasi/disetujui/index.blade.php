@@ -141,19 +141,19 @@
 
                 @if($item->jenis_surat == 'PKL')
 
-                    <a href="{{ route('admin.verifikasi.pkl.preview', $item->id) }}"
-                       class="text-xs font-semibold text-blue-600">
-                        Detail →
-                    </a>
+    <a href="{{ route('admin.verifikasi.pkl.pdf', $item->id) }}"
+       class="text-xs font-semibold text-blue-600">
+        Detail →
+    </a>
 
-                @else
+@else
 
-                    <a href="{{ route('admin.verifikasi.penelitian.preview', $item->id) }}"
-                       class="text-xs font-semibold text-blue-600">
-                        Detail →
-                    </a>
+    <a href="{{ route('admin.verifikasi.penelitian.pdf', $item->id) }}"
+       class="text-xs font-semibold text-blue-600">
+        Detail →
+    </a>
 
-                @endif
+@endif
 
             </div>
 
@@ -247,21 +247,19 @@
 
                         @if($item->jenis_surat == 'PKL')
 
-                            <a href="{{ route('admin.verifikasi.pkl.preview', $item->id) }}"
-                               class="text-blue-600 hover:text-blue-900 font-bold text-sm bg-blue-50 px-3 py-1 rounded hover:bg-blue-100 transition">
+    <a href="{{ route('admin.verifikasi.pkl.pdf', $item->id) }}"
+       class="text-blue-600 font-bold text-sm">
+        Detail
+    </a>
 
-                                Detail
-                            </a>
+@else
 
-                        @else
+    <a href="{{ route('admin.verifikasi.penelitian.pdf', $item->id) }}"
+       class="text-blue-600 font-bold text-sm">
+        Detail
+    </a>
 
-                            <a href="{{ route('admin.verifikasi.penelitian.preview', $item->id) }}"
-                               class="text-blue-600 hover:text-blue-900 font-bold text-sm bg-blue-50 px-3 py-1 rounded hover:bg-blue-100 transition">
-
-                                Detail
-                            </a>
-
-                        @endif
+@endif
 
                     </td>
 

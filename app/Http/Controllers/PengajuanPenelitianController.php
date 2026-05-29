@@ -23,21 +23,25 @@ class PengajuanPenelitianController extends Controller
     $tanggal_sekarang = Carbon::now('Asia/Makassar')
         ->translatedFormat('d F Y, H:i');
 
-    $punyaPengajuanAktif = PengajuanPenelitian::hasActive(Auth::id());
+    // CEK BATAS 5 PENGAJUAN
+    $batasPengajuanPenelitian = PengajuanPenelitian::hasActive(Auth::id());
 
     return view('pengajuan.penelitian.create', compact(
         'user',
         'tanggal_sekarang',
-        'punyaPengajuanAktif'
+        'batasPengajuanPenelitian'
     ));
 }
 
 public function store(Request $request)
 {
-    // ✅ BLOCK kalau masih ada pengajuan
+    // BLOK JIKA SUDAH 5 KALI PENGAJUAN
     if (PengajuanPenelitian::hasActive(Auth::id())) {
-        return back()->with('error', 'Anda masih memiliki pengajuan (pending/disetujui). Tidak bisa mengajukan lagi!');
-    }
+    return back()->with(
+        'error',
+        'Batas maksimal pengajuan penelitian adalah 5 kali.'
+    );
+}
 
     $request->validate([
         'nomor_handphone' => 'required|string|max:20',

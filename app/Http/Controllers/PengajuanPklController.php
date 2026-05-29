@@ -18,28 +18,31 @@ class PengajuanPklController extends Controller
 
     // FORM CREATE
     public function create()
-    {
-        $user = Auth::user();
+{
+    $user = Auth::user();
 
-        $tanggal_sekarang = Carbon::now('Asia/Makassar')
-            ->translatedFormat('d F Y, H:i');
+    $tanggal_sekarang = Carbon::now('Asia/Makassar')
+        ->translatedFormat('d F Y, H:i');
 
-        // ✅ TAMBAHAN
-        $punyaPengajuanAktif = PengajuanPkl::hasActive(Auth::id());
+    // CEK APAKAH SUDAH MENCAPAI BATAS 5 PENGAJUAN
+    $batasPengajuan = PengajuanPkl::hasActive(Auth::id());
 
-        return view('pengajuan.pkl.create', compact(
-            'user',
-            'tanggal_sekarang',
-            'punyaPengajuanAktif'
-        ));
-    }
+    return view('pengajuan.pkl.create', compact(
+        'user',
+        'tanggal_sekarang',
+        'batasPengajuan'
+    ));
+}
 
     // SIMPAN DATA PKL
     public function store(Request $request)
     {
-        // ✅ TAMBAHAN: BLOCK jika masih ada pengajuan aktif
+        // BLOK JIKA SUDAH 5 KALI PENGAJUAN
         if (PengajuanPkl::hasActive(Auth::id())) {
-            return back()->with('error', 'Anda masih memiliki pengajuan PKL aktif!');
+            return back()->with(
+                'error',
+                'Batas maksimal pengajuan PKL adalah 5 kali.'
+            );
         }
 
         $request->validate([
@@ -52,6 +55,7 @@ class PengajuanPklController extends Controller
             'tanggal_mulai' => 'required|date',
             'tanggal_selesai' => 'required|date|after:tanggal_mulai',
         ]);
+
         PengajuanPkl::create([
             'user_id' => Auth::id(),
             'tanggal_pengajuan' => Carbon::now('Asia/Makassar'),
@@ -97,7 +101,10 @@ class PengajuanPklController extends Controller
 
         $data->save();
 
-        return back()->with('success', 'Pengajuan disetujui & nomor surat berhasil dibuat!');
+        return back()->with(
+            'success',
+            'Pengajuan disetujui & nomor surat berhasil dibuat!'
+        );
     }
 
     // CETAK / PREVIEW SURAT
@@ -127,16 +134,16 @@ class PengajuanPklController extends Controller
     }
 
     public function showPkl($id)
-{
-    $pkl = PengajuanPkl::with('user')
-        ->where('user_id', auth()->id())
-        ->findOrFail($id);
+    {
+        $pkl = PengajuanPkl::with('user')
+            ->where('user_id', auth()->id())
+            ->findOrFail($id);
 
-    $pdf = Pdf::loadView(
-        'admin.verifikasi.pkl.pdf',
-        compact('pkl')
-    );
+        $pdf = Pdf::loadView(
+            'admin.verifikasi.pkl.pdf',
+            compact('pkl')
+        );
 
-    return $pdf->stream('surat_pkl.pdf');
-}
+        return $pdf->stream('surat_pkl.pdf');
+    }
 }

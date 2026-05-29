@@ -373,4 +373,32 @@ class AdminVerifikasiController extends Controller
 
     return view('admin.verifikasi.pkl.show', compact('pkl'));
 }
+
+// =========================
+// HAPUS PKL
+// =========================
+public function destroyPkl($id)
+{
+    $pkl = PengajuanPkl::findOrFail($id);
+
+    $pkl->delete();
+
+    return redirect()
+        ->route('admin.verifikasi.pkl.index')
+        ->with('success', 'Pengajuan PKL berhasil dihapus.');
+}
+
+// =========================
+// HAPUS PENELITIAN
+// =========================
+public function destroyPenelitian($id)
+{
+    $penelitian = PengajuanPenelitian::findOrFail($id);
+
+    $penelitian->delete();
+
+    return redirect()
+        ->route('admin.verifikasi.penelitian.index')
+        ->with('success', 'Pengajuan penelitian berhasil dihapus.');
+}
 }

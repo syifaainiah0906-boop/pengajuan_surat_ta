@@ -156,4 +156,36 @@ class AdminArsipController extends Controller
 
     return $pdf->download($namaFile);
 }
+
+public function showPenelitian($id)
+{
+    $penelitian = PengajuanPenelitian::with('user')->findOrFail($id);
+
+    $pdf = Pdf::loadView(
+        'admin.verifikasi.penelitian.pdf',
+        compact('penelitian')
+    );
+
+    $namaFile = 'Surat Penelitian-' .
+        str_replace(' ', '-', $penelitian->user->name) . '-' .
+        $penelitian->user->nim . '.pdf';
+
+    return $pdf->stream($namaFile);
+}
+
+public function showPkl($id)
+{
+    $pkl = PengajuanPkl::with('user')->findOrFail($id);
+
+    $pdf = Pdf::loadView(
+        'admin.verifikasi.pkl.pdf',
+        compact('pkl')
+    );
+
+    $namaFile = 'Surat PKL-' .
+        str_replace(' ', '-', $pkl->user->name) . '-' .
+        $pkl->user->nim . '.pdf';
+
+    return $pdf->stream($namaFile);
+}
 }

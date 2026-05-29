@@ -115,44 +115,116 @@
         </div>
 
         {{-- ACTION BUTTONS --}}
-        @if($penelitian->status == 'pending')
-        <div class="bg-gray-50 px-5 sm:px-8 py-4 sm:py-6 border-t border-gray-200">
-            <div class="flex flex-col sm:flex-row sm:justify-end gap-3">
+@if($penelitian->status == 'pending')
 
-                <form action="{{ route('admin.verifikasi.penelitian.update', $penelitian->id) }}" method="POST" class="w-full sm:w-auto">
-                    @csrf @method('PATCH')
-                    <input type="hidden" name="status" value="ditolak">
-                    <button type="submit" onclick="return confirm('Yakin ingin menolak?')"
-                        class="w-full sm:w-auto justify-center px-6 py-2.5 sm:py-3 bg-white border border-red-300 text-red-700 font-bold rounded-lg hover:bg-red-50 transition shadow-sm flex items-center text-sm sm:text-base">
-                        <svg class="w-4 h-4 sm:w-5 sm:h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
-                        </svg>
-                        Tolak
-                    </button>
-                </form>
+<div class="bg-gray-50 px-5 sm:px-8 py-4 sm:py-6 border-t border-gray-200">
 
-                <form action="{{ route('admin.verifikasi.penelitian.update', $penelitian->id) }}" method="POST" class="w-full sm:w-auto">
-                    @csrf @method('PATCH')
-                    <input type="hidden" name="status" value="disetujui">
-                    <button type="submit" onclick="return confirm('Yakin ingin menyetujui?')"
-                        class="w-full sm:w-auto justify-center px-6 py-2.5 sm:py-3 bg-blue-600 text-white font-bold rounded-lg hover:bg-blue-700 transition shadow-md flex items-center text-sm sm:text-base">
-                        <svg class="w-4 h-4 sm:w-5 sm:h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
-                        </svg>
-                        Setujui
-                    </button>
-                </form>
+    <div class="flex flex-col sm:flex-row sm:justify-end gap-3">
 
-            </div>
-        </div>
-        @else
-        <div class="bg-gray-50 px-5 sm:px-8 py-4 sm:py-6 border-t border-gray-200 text-center">
-            <p class="text-gray-500 italic text-sm sm:text-base">
-                Pengajuan ini telah diproses pada
-                {{ $penelitian->updated_at->setTimezone('Asia/Makassar')->translatedFormat('d F Y, H:i') }}
-            </p>
-        </div>
-        @endif
+        {{-- HAPUS --}}
+        <form action="{{ route('admin.verifikasi.penelitian.destroy', $penelitian->id) }}"
+              method="POST"
+              class="w-full sm:w-auto">
+
+            @csrf
+            @method('DELETE')
+
+            <button type="submit"
+                    onclick="return confirm('Yakin ingin menghapus pengajuan ini?')"
+                    class="w-full sm:w-auto justify-center px-6 py-2.5 sm:py-3 bg-red-600 text-white font-bold rounded-lg hover:bg-red-700 transition shadow-md flex items-center text-sm sm:text-base">
+
+                <svg class="w-4 h-4 sm:w-5 sm:h-5 mr-2"
+                     fill="none"
+                     stroke="currentColor"
+                     viewBox="0 0 24 24">
+
+                    <path stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-width="2"
+                          d="M19 7L5 7M10 11V17M14 11V17M6 7L7 19C7.1 20 7.9 21 9 21H15C16.1 21 16.9 20 17 19L18 7M9 7V5C9 4.4 9.4 4 10 4H14C14.6 4 15 4.4 15 5V7"/>
+                </svg>
+
+                Hapus
+            </button>
+        </form>
+
+        {{-- TOLAK --}}
+        <form action="{{ route('admin.verifikasi.penelitian.update', $penelitian->id) }}"
+              method="POST"
+              class="w-full sm:w-auto">
+
+            @csrf
+            @method('PATCH')
+
+            <input type="hidden"
+                   name="status"
+                   value="ditolak">
+
+            <button type="submit"
+                    onclick="return confirm('Yakin ingin menolak?')"
+                    class="w-full sm:w-auto justify-center px-6 py-2.5 sm:py-3 bg-white border border-red-300 text-red-700 font-bold rounded-lg hover:bg-red-50 transition shadow-sm flex items-center text-sm sm:text-base">
+
+                <svg class="w-4 h-4 sm:w-5 sm:h-5 mr-2"
+                     fill="none"
+                     stroke="currentColor"
+                     viewBox="0 0 24 24">
+
+                    <path stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-width="2"
+                          d="M6 18L18 6M6 6l12 12"/>
+                </svg>
+
+                Tolak
+            </button>
+        </form>
+
+        {{-- SETUJUI --}}
+        <form action="{{ route('admin.verifikasi.penelitian.update', $penelitian->id) }}"
+              method="POST"
+              class="w-full sm:w-auto">
+
+            @csrf
+            @method('PATCH')
+
+            <input type="hidden"
+                   name="status"
+                   value="disetujui">
+
+            <button type="submit"
+                    onclick="return confirm('Yakin ingin menyetujui?')"
+                    class="w-full sm:w-auto justify-center px-6 py-2.5 sm:py-3 bg-blue-600 text-white font-bold rounded-lg hover:bg-blue-700 transition shadow-md flex items-center text-sm sm:text-base">
+
+                <svg class="w-4 h-4 sm:w-5 sm:h-5 mr-2"
+                     fill="none"
+                     stroke="currentColor"
+                     viewBox="0 0 24 24">
+
+                    <path stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-width="2"
+                          d="M5 13l4 4L19 7"/>
+                </svg>
+
+                Setujui
+            </button>
+        </form>
+
+    </div>
+</div>
+
+@else
+
+<div class="bg-gray-50 px-5 sm:px-8 py-4 sm:py-6 border-t border-gray-200 text-center">
+
+    <p class="text-gray-500 italic text-sm sm:text-base">
+        Pengajuan ini telah diproses pada
+        {{ $penelitian->updated_at->setTimezone('Asia/Makassar')->translatedFormat('d F Y, H:i') }}
+    </p>
+
+</div>
+
+@endif
 
     </div>
 </div>
